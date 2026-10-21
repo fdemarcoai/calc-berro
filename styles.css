@@ -63,7 +63,7 @@ select:focus, input:focus { outline: none; border-color: var(--orange-dark); box
 .add-product > span { font-size: 21px; font-weight: 400; line-height: 1; }
 .add-product:hover { background: #ffe6d1; }
 .panel-note { font-size: 11px; color: var(--muted); line-height: 1.6; text-align: center; margin: 16px 0 0; }
-.summary { background: #262623; color: #fff; border-radius: 6px; padding: 29px 27px 0; overflow: hidden; position: sticky; top: 24px; }
+.summary { background: #262623; color: #fff; border-radius: 6px; padding: 29px 27px 0; overflow: hidden; position: static; }
 .summary > .eyebrow { color: #ffae6c; margin-bottom: 12px; }
 .summary h2 { font-size: 22px; letter-spacing: -.6px; margin: 0 0 28px; }
 .summary-route { border-top: 1px solid #484841; border-bottom: 1px solid #484841; padding: 19px 0; display: flex; align-items: center; gap: 10px; font-size: 12px; color: #c9c8c0; }
@@ -181,17 +181,19 @@ select:focus, input:focus { outline: none; border-color: var(--orange-dark); box
   .quote-actions { width: 100%; }
 }
 
-/* Limpiar y deshacer acompañan el resultado; en móvil quedan siempre a mano. */
-.summary .quote-actions { margin-bottom: 22px; }
-.summary .new-quote { width: 100%; border-color: #716d62; background: transparent; color: #f1efe7; }
-.summary .new-quote:hover { border-color: #ffae6c; background: #3a342c; }
+/* El botón queda por fuera, debajo del recuadro de cotización. */
+.summary-column { position: sticky; top: 24px; min-width: 0; }
+.summary-column > .quote-actions { margin-top: 14px; }
+.summary-column .new-quote { width: 100%; background: white; }
+.summary-column .new-quote:hover { background: #fff5ec; }
 .mobile-quote-total { display: none; }
 @media (max-width: 700px) {
   body { padding-bottom: calc(145px + env(safe-area-inset-bottom, 0px)); }
-  .summary .quote-actions { position: fixed; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); left: 16px; right: 16px; z-index: 30; width: auto; margin: 0; padding: 12px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 9px 12px; border: 1px solid #58584f; border-radius: 8px; background: #262623; box-shadow: 0 4px 24px #0003; }
+  .summary-column { position: static; }
+  .summary-column > .quote-actions { position: fixed; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); left: 16px; right: 16px; z-index: 30; width: auto; margin: 0; padding: 12px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: white; box-shadow: 0 4px 24px #0002; }
   .mobile-quote-total { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  .mobile-quote-total > span { color: #c9c8c0; font-size: 10px; }
-  .mobile-quote-total strong { color: white; font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
-  .summary .new-quote { width: auto; min-height: 44px; padding: 10px 12px; font-size: 12px; }
-  .summary .undo-quote { grid-column: 1 / -1; }
+  .mobile-quote-total > span { color: var(--muted); font-size: 10px; }
+  .mobile-quote-total strong { color: var(--ink); font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .summary-column .new-quote { width: auto; min-height: 44px; padding: 10px 12px; font-size: 12px; }
+  .summary-column .undo-quote { grid-column: 1 / -1; }
 }
