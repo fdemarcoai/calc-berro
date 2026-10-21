@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f47b20" />
-    <meta name="description" content="Calculá el costo de envío por Berro de los productos De Marco." />
-    <title>Calculadora de envíos Berro · De Marco</title>
-    <link rel="stylesheet" href="styles.css?v=2" />
+    <meta name="description" content="Herramienta de cotización de envíos Berro para el equipo de ventas de De Marco." />
+    <title>Cotizador Berro · Ventas De Marco</title>
+    <link rel="stylesheet" href="styles.css?v=3" />
   </head>
   <body>
     <a class="skip-link" href="#calculadora">Ir a la calculadora</a>
@@ -15,19 +15,19 @@
         <a class="brand" href="https://demarco.com.uy/" aria-label="De Marco, ir al sitio principal">
           <img class="brand-logo" src="assets/demarco-logo.png" alt="De Marco" width="200" height="57" />
         </a>
-        <a class="store-link" href="https://demarco.com.uy/">Ir a la tienda <span aria-hidden="true">↗</span></a>
+        <span class="internal-badge"><span aria-hidden="true"></span> Equipo de ventas</span>
       </div>
     </header>
     <main id="calculadora" class="page">
-      <div class="breadcrumb"><span>De Marco</span><span aria-hidden="true">/</span> Calculadora de envíos</div>
-      <section class="intro" aria-labelledby="page-title">
-        <p class="eyebrow"><span class="accent-line" aria-hidden="true"></span> Logística · Berro</p>
-        <h1 id="page-title">Tu envío, <span>más simple.</span></h1>
-        <p class="intro-copy">Seleccioná los productos y sus cantidades.<br />Nosotros hacemos las cuentas.</p>
-      </section>
+      <div class="breadcrumb"><span>Ventas</span><span aria-hidden="true">/</span> Logística<span aria-hidden="true">/</span> Berro</div>
+      <section class="intro" aria-labelledby="page-title"><div>
+        <p class="eyebrow"><span class="accent-line" aria-hidden="true"></span> Herramienta de cotización</p>
+        <h1 id="page-title">Cotizador de envíos <span>Berro.</span></h1>
+        <p class="intro-copy">Cargá los productos de la venta para calcular el importe del envío a cotizar.</p>
+      </div><button type="button" class="new-quote" id="nueva-cotizacion"><span aria-hidden="true">+</span> Nueva cotización</button></section>
       <div class="calculator-layout">
         <section class="products-panel" aria-labelledby="products-title">
-          <div class="panel-heading"><div><p class="eyebrow">01 / Armá tu envío</p><h2 id="products-title">¿Qué vas a enviar?</h2></div><span class="panel-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m12 3 9 5v8l-9 5-9-5V8l9-5Z"/><path d="m3 8 9 5 9-5M12 13v8M7.5 5.5l9 5V14"/></svg></span></div>
+          <div class="panel-heading"><div><p class="eyebrow">01 / Detalle de la venta</p><h2 id="products-title">Productos a enviar</h2></div><span class="panel-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m12 3 9 5v8l-9 5-9-5V8l9-5Z"/><path d="m3 8 9 5 9-5M12 13v8M7.5 5.5l9 5V14"/></svg></span></div>
           <div id="productos">
             <div class="producto">
               <button type="button" class="eliminar" onclick="eliminarProducto(this)" aria-label="Quitar producto">✕</button>
@@ -39,20 +39,23 @@
             </div>
           </div>
           <button type="button" class="add-product" onclick="agregarProducto()"><span aria-hidden="true">+</span> Agregar otro producto</button>
-          <p class="panel-note">Podés combinar distintos productos en un mismo cálculo.</p>
+          <p class="panel-note">Agregá una línea por tipo de producto e indicá la cantidad de unidades.</p>
         </section>
         <aside class="summary" aria-labelledby="summary-title">
-          <p class="eyebrow">02 / Tu presupuesto</p>
-          <h2 id="summary-title">Resumen del envío</h2>
-          <div class="summary-route"><span class="route-mark" aria-hidden="true"></span><span>Transporte <strong>Berro</strong></span><span class="route-tag">Envío</span></div>
+          <p class="eyebrow">02 / Resultado de la cotización</p>
+          <h2 id="summary-title">Importe del envío</h2>
+          <div class="summary-route"><span class="route-mark" aria-hidden="true"></span><span>Transporte <strong>Berro</strong></span><span class="route-tag">Cotización</span></div>
           <div id="resultado" role="status" aria-live="polite" aria-atomic="true"></div>
           <p class="included"><svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="8"/><path d="m6 10 3 3 5-6"/></svg> Incluye el costo de envío a agencia</p>
+          <button type="button" class="copy-total" id="copiar-total" disabled>Copiar importe del envío <span aria-hidden="true">↗</span></button>
+          <p id="estado-cotizacion" class="quote-status" role="status" aria-live="polite">Seleccioná un producto para copiar la cotización.</p>
           <div class="summary-footer"><span class="live-dot" aria-hidden="true"></span> El total se actualiza automáticamente</div>
         </aside>
       </div>
-      <div class="help-note"><span aria-hidden="true">↗</span><p>Todo para tu espacio, en un solo lugar. <a href="https://demarco.com.uy/">Conocé nuestros productos</a></p></div>
+      <div class="help-note"><span aria-hidden="true">i</span><p>El total incluye IVA y el envío a agencia. Usá <strong>Nueva cotización</strong> para comenzar otra venta.</p></div>
     </main>
-    <footer class="site-footer"><div class="footer-inner"><span>De Marco · Calculadora de envíos Berro</span><a href="https://demarco.com.uy/">demarco.com.uy <span aria-hidden="true">↗</span></a></div></footer>
-    <script src="script.js?v=2"></script>
+    <footer class="site-footer"><div class="footer-inner"><span>De Marco · Herramienta para el equipo de ventas</span><a href="https://demarco.com.uy/">demarco.com.uy <span aria-hidden="true">↗</span></a></div></footer>
+    <script src="script.js?v=3"></script>
+    <script src="ventas.js?v=3"></script>
   </body>
 </html>
