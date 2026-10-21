@@ -2,36 +2,6 @@
 let selectorAbierto = null;
 let siguienteSelector = 0;
 
-function crearMiniatura(nombre) {
-  const contenedor = document.createElement("span");
-  contenedor.className = "product-thumb";
-  contenedor.setAttribute("aria-hidden", "true");
-  const mostrarIcono = () => {
-    contenedor.replaceChildren();
-    contenedor.classList.add("product-thumb-placeholder");
-    contenedor.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m12 3 9 5v8l-9 5-9-5V8l9-5Z"/><path d="m3 8 9 5 9-5M12 13v8M7.5 5.5l9 5V14"/></svg>';
-  };
-  const foto = fotosProductos[nombre];
-  if (!foto) {
-    mostrarIcono();
-    return contenedor;
-  }
-  contenedor.title = `Foto de referencia: ${foto.modelo}`;
-  const imagen = document.createElement("img");
-  imagen.alt = "";
-  imagen.width = 44;
-  imagen.height = 44;
-  imagen.loading = "lazy";
-  imagen.decoding = "async";
-  imagen.addEventListener("error", () => {
-    contenedor.title = "Foto no disponible";
-    mostrarIcono();
-  }, { once: true });
-  imagen.src = foto.imagen;
-  contenedor.appendChild(imagen);
-  return contenedor;
-}
-
 function normalizarBusqueda(texto) {
   return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 }
@@ -82,7 +52,7 @@ function inicializarSelector(select) {
   let activo = -1;
 
   function sincronizar() {
-    boton.replaceChildren(crearMiniatura(select.value));
+    boton.replaceChildren();
     const texto = document.createElement("span");
     texto.className = "picker-name";
     texto.textContent = select.value || "Seleccionar producto o empaque";
@@ -118,14 +88,11 @@ function inicializarSelector(select) {
       item.dataset.value = opcion.value;
       item.setAttribute("role", "option");
       item.setAttribute("aria-selected", String(opcion.value === select.value));
-      item.appendChild(crearMiniatura(opcion.value));
       const texto = document.createElement("span");
       texto.className = "picker-option-text";
       const nombre = document.createElement("span");
       nombre.textContent = opcion.value || "Sin producto seleccionado";
-      const detalle = document.createElement("small");
-      detalle.textContent = opcion.value ? (fotosProductos[opcion.value] ? "Foto de referencia" : "Sin foto identificada") : "Limpiar esta selección";
-      texto.append(nombre, detalle);
+      texto.appendChild(nombre);
       item.appendChild(texto);
       lista.appendChild(item);
       opcionesVisibles.push(item);
