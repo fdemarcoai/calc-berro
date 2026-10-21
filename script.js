@@ -1,42 +1,8 @@
-let contadorProductos = 1;
-let iva = 1.22;
-let demarcoImpuesto = 1.25;
-let envioAgencia = 350;
-
-const preciosEmpaques = {
-  "Armarios 1,20": 1123,
-  "Armario 1,90": 1309,
-  "Guardarropas 1,80": 1211,
-  "Tandem de 2 asientos": 813,
-  "Tandem de 3 asientos": 1330,
-  "Tandem de 4 asientos": 1886,
-  "Tandem de 5 asientos": 1984,
-  "Tandem de 6 asientos": 2399,
-  "Tandem de 8 asientos": 3096,
-  "Fichero 4 cajones": 1123,
-  "Estanterías de 2 mts": 1222,
-  "Bulto estantería (parantes, estantes)": 308,
-  "Sillas por 4": 273,
-  "Sillas por 5": 316,
-  "Silla de oficina": 388,
-  Pórtico: 633,
-  "Racks 1,90 (heavy duty, summit)": 1510,
-  "Escritorio chico": 802,
-  "Escritorio grande": 1128,
-  "Súper Útil (3 bultos)": 2190,
-  "Armarios Petra metálicos XL (sin armar)": 3120,
-  "Cajonera móvil": 1005,
-  "Sillones de 3 cuerpos": 2693,
-  "Sillón de 1 cuerpo": 2693,
-  "Mesa con 6 bancos rebatibles": 2900,
-  "Mesa recepción 90/120 cm": 3058,
-  Pallet: 2922,
-};
-
 function cargarOpciones(select) {
   select.innerHTML = "<option value=''>Seleccionar</option>";
 
-  for (let nombre in preciosEmpaques) {
+  const nombres = Object.keys(preciosEmpaques).sort((a, b) => a.localeCompare(b, "es", { sensitivity: "base" }));
+  for (const nombre of nombres) {
     const option = document.createElement("option");
     option.value = nombre;
     option.textContent = nombre;
@@ -157,27 +123,12 @@ function conectarEventosEnProducto(producto) {
   }
 }
 
-function calcular() {
-  const productos = document.querySelectorAll(".producto");
-  // SE LE AGREGUA EL COSTO FIJO
-  let total = envioAgencia;
-
-  productos.forEach((producto) => {
-    const empaque = producto.querySelector(".empaque")?.value || "";
-    const cantidadRaw = producto.querySelector(".cantidad")?.value;
-    const cantidad = parseInt(cantidadRaw, 10) || 0;
-
-    if (empaque && cantidad > 0) {
-      const precioBase = preciosEmpaques[empaque];
-      const precioFinal = precioBase * iva * demarcoImpuesto * cantidad;
-      total += precioFinal;
-    }
-  });
-
-  const resultadoEl = document.getElementById("resultado");
-  resultadoEl.innerHTML = `Precio total: <span class="iva">$ ${total.toFixed(2)}</span> IVA inc.`;
+// Conserva intactas las cuentas de calculo-original.js y notifica a la interfaz.
+const calcularVersionOriginal = calcular;
+calcular = function calcularConInterfaz() {
+  calcularVersionOriginal();
   document.dispatchEvent(new Event("cotizacion:actualizada"));
-}
+};
 
 // Compatibilidad por si quedó alguna llamada vieja
 function mostrarSeleccion() {

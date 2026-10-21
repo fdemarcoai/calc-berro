@@ -194,3 +194,6 @@ select:focus, input:focus { outline: none; border-color: var(--orange-dark); box
   .summary-column .new-quote { width: auto; min-height: 44px; padding: 10px 12px; font-size: 12px; }
   .summary-column .undo-quote { grid-column: 1 / -1; }
 }
+
+.currency-note { margin: 0 0 16px; padding: 10px; border: 1px solid #bc8c51; border-radius: 4px; color: #ffe2bd; font-size: 11px; line-height: 1.6; }
+.currency-note[hidden] { display: none; }

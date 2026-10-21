@@ -8,6 +8,8 @@ const copiaManual = document.getElementById("copia-manual");
 const textoCotizacion = document.getElementById("texto-cotizacion");
 const listaProductos = document.getElementById("productos");
 const claveCotizacion = "demarco.berro.cotizacion.v1";
+const firmaCatalogo = JSON.stringify(preciosEmpaques);
+const notaMoneda = document.getElementById("nota-moneda");
 let filasAntesDeLimpiar = null;
 let cotizacionLista = false;
 let aplicandoFilas = false;
@@ -25,47 +27,62 @@ function filasConImporte() {
   );
 }
 
-function dineroCentavos(centavos) {
-  return `$ ${(centavos / 100).toFixed(2)}`;
+function monedaProducto(fila) {
+  return preciosEmpaques[fila.producto]?.moneda === "USD" ? "USD" : "$";
+}
+
+function hayMonedasMezcladas() {
+  return new Set(filasConImporte().map(monedaProducto)).size > 1;
+}
+
+function dineroCentavos(centavos, moneda) {
+  return `${moneda} ${(centavos / 100).toFixed(2)}`;
 }
 
 function actualizarDesglose() {
+  // El total autoritativo lo calcula el código original, sin cambiar su prioridad USD.
+  const textoTotal = document.getElementById("totalMonto").textContent.trim();
+  const moneda = textoTotal.startsWith("USD") ? "USD" : "$";
   let base = 0;
   let baseConIva = 0;
-  let total = envioAgencia;
-  filasConImporte().forEach(fila => {
-    const precio = preciosEmpaques[fila.producto];
+  filasConImporte().filter(fila => monedaProducto(fila) === moneda).forEach(fila => {
+    const config = preciosEmpaques[fila.producto];
     const cantidad = parseInt(fila.cantidad, 10);
-    base += precio * cantidad;
-    baseConIva += precio * iva * cantidad;
-    // Mantiene el mismo orden de operaciones que la fórmula original.
-    total += precio * iva * demarcoImpuesto * cantidad;
+    base += config.precio * cantidad;
+    let precioConIva = config.precio;
+    if (!config.fijo && config.iva !== false) precioConIva *= iva;
+    baseConIva += precioConIva * cantidad;
   });
   const centavos = importe => Math.round(Number(importe.toFixed(2)) * 100);
   const baseCentavos = centavos(base);
   const conIvaCentavos = centavos(baseConIva);
-  const agenciaCentavos = centavos(envioAgencia);
-  const totalCentavos = centavos(total);
-  // Diferencias de acumulados: los renglones redondeados suman el total mostrado.
-  document.getElementById("detalle-base").textContent = dineroCentavos(baseCentavos);
-  document.getElementById("detalle-iva").textContent = dineroCentavos(conIvaCentavos - baseCentavos);
-  document.getElementById("detalle-recargo").textContent = dineroCentavos(totalCentavos - agenciaCentavos - conIvaCentavos);
-  document.getElementById("detalle-agencia").textContent = dineroCentavos(agenciaCentavos);
-  document.getElementById("detalle-total").textContent = dineroCentavos(totalCentavos);
+  const textoEnvio = document.getElementById("envioMonto").textContent;
+  const agenciaCentavos = moneda === "USD" ? 0 : centavos(Number(textoEnvio.replace("$", "").trim()));
+  const totalCentavos = centavos(Number(textoTotal.replace(moneda, "").trim()));
+  document.getElementById("detalle-base").textContent = dineroCentavos(baseCentavos, moneda);
+  document.getElementById("detalle-iva").textContent = dineroCentavos(conIvaCentavos - baseCentavos, moneda);
+  document.getElementById("detalle-recargo").textContent = dineroCentavos(totalCentavos - agenciaCentavos - conIvaCentavos, moneda);
+  document.getElementById("detalle-agencia").textContent = dineroCentavos(agenciaCentavos, moneda);
+  document.getElementById("detalle-total").textContent = textoTotal;
   document.getElementById("tasa-iva").textContent = `(${Math.round((iva - 1) * 100)}%)`;
   document.getElementById("tasa-recargo").textContent = `(${Math.round((demarcoImpuesto - 1) * 100)}%)`;
 }
 
 function actualizarAcciones() {
   const hayProductos = filasConImporte().length > 0;
-  copiarTotal.disabled = !hayProductos;
+  const mezcladas = hayMonedasMezcladas();
+  // No compartir una cotización que mezcle monedas y oculte importes en pesos.
+  copiarTotal.disabled = !hayProductos || mezcladas;
+  notaMoneda.hidden = !mezcladas;
   deshacerLimpieza.hidden = !filasAntesDeLimpiar;
   copiaManual.hidden = true;
-  estadoCotizacion.textContent = hayProductos
-    ? "Copiá productos, cantidades y total del envío para el presupuesto."
-    : "Seleccioná un producto para copiar la cotización.";
+  estadoCotizacion.textContent = mezcladas
+    ? "Separá los productos por moneda para copiar la cotización."
+    : hayProductos
+      ? "Copiá productos, cantidades y total del envío para el presupuesto."
+      : "Seleccioná un producto para copiar la cotización.";
   actualizarDesglose();
-  document.getElementById("total-movil").textContent = document.querySelector("#resultado .iva").textContent.trim();
+  document.getElementById("total-movil").textContent = document.getElementById("totalMonto").textContent.trim();
 }
 
 function guardarCotizacion() {
@@ -73,6 +90,7 @@ function guardarCotizacion() {
   try {
     localStorage.setItem(claveCotizacion, JSON.stringify({
       version: 1,
+      catalogo: firmaCatalogo,
       filas: leerFilas(),
       deshacer: filasAntesDeLimpiar,
     }));
@@ -85,9 +103,15 @@ function guardarCotizacion() {
 function validarFilas(filas) {
   return Array.isArray(filas) && filas.length > 0 && filas.every(fila =>
     fila && typeof fila.producto === "string" &&
-    (fila.producto === "" || Object.hasOwn(preciosEmpaques, fila.producto)) &&
     typeof fila.cantidad === "string" && /^[0-9]*$/.test(fila.cantidad),
   );
+}
+
+function adaptarFilasAlCatalogo(filas) {
+  return filas.map(fila => ({
+    producto: Object.hasOwn(preciosEmpaques, fila.producto) ? fila.producto : "",
+    cantidad: fila.cantidad,
+  }));
 }
 
 function aplicarFilas(filas) {
@@ -140,14 +164,16 @@ deshacerLimpieza.addEventListener("click", () => {
 
 function construirCotizacion() {
   const filas = filasConImporte();
-  const importe = document.querySelector("#resultado .iva").textContent.trim();
+  const importe = document.getElementById("totalMonto").textContent.trim();
+  const traslado = document.getElementById("envioMonto").textContent.trim();
   return [
     "De Marco · Cotización de envío por Berro",
     "",
     ...filas.map(fila => `• ${fila.producto} × ${parseInt(fila.cantidad, 10)}`),
     "",
-    `Total del envío: ${importe} (IVA incluido).`,
-    "Incluye el traslado a agencia.",
+    `Total del envío: ${importe}.`,
+    "IVA e impuestos según producto, incluidos cuando corresponde.",
+    traslado === "-" ? "Sin traslado adicional a agencia." : `Traslado a agencia incluido en el total: ${traslado}.`,
   ].join("\n");
 }
 
@@ -227,8 +253,14 @@ window.addEventListener("load", () => {
     aviso = "No se pudo recuperar el cálculo guardado. Podés comenzar una nueva cotización.";
   }
   if (guardada) {
-    filasAntesDeLimpiar = validarFilas(guardada.deshacer) ? guardada.deshacer : null;
-    aplicarFilas(guardada.filas);
+    const haySeleccionesEliminadas = guardada.filas.some(fila => fila.producto && !Object.hasOwn(preciosEmpaques, fila.producto));
+    filasAntesDeLimpiar = validarFilas(guardada.deshacer) ? adaptarFilasAlCatalogo(guardada.deshacer) : null;
+    aplicarFilas(adaptarFilasAlCatalogo(guardada.filas));
+    if (haySeleccionesEliminadas) {
+      aviso = "Recuperamos las cantidades. Algunas selecciones ya no están en el catálogo original: volvé a elegir esos productos.";
+    } else if (guardada.catalogo !== firmaCatalogo) {
+      aviso = "Cotización recuperada y recalculada con las tarifas de la versión original indicada.";
+    }
   }
   cotizacionLista = true;
   calcular();
