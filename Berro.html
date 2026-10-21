@@ -3,33 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calculadora de Berro</title>
-    <link rel="stylesheet" href="styles.css" />
+    <meta name="theme-color" content="#f47b20" />
+    <meta name="description" content="Calculá el costo de envío por Berro de los productos De Marco." />
+    <title>Calculadora de envíos Berro · De Marco</title>
+    <link rel="stylesheet" href="styles.css?v=2" />
   </head>
   <body>
-    <h1>Calculadora de Berro</h1>
-
-    <div id="productos">
-      <div class="producto">
-        <button class="eliminar" onclick="eliminarProducto(this)">✕</button>
-        <h2>Producto 1</h2>
-        <select class="empaque"></select>
-
-        <input
-          class="cantidad"
-          type="text"
-          inputmode="numeric"
-          pattern="[0-9]+"
-          value="1"
-          placeholder="Cantidad"
-        />
+    <a class="skip-link" href="#calculadora">Ir a la calculadora</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="https://demarco.com.uy/" aria-label="De Marco, ir al sitio principal">
+          <img class="brand-logo" src="assets/demarco-logo.png" alt="De Marco" width="200" height="57" />
+        </a>
+        <a class="store-link" href="https://demarco.com.uy/">Ir a la tienda <span aria-hidden="true">↗</span></a>
       </div>
-    </div>
-
-    <button onclick="agregarProducto()">Agregar otro producto</button>
-
-    <h2 id="resultado"></h2>
-
-    <script src="script.js"></script>
+    </header>
+    <main id="calculadora" class="page">
+      <div class="breadcrumb"><span>De Marco</span><span aria-hidden="true">/</span> Calculadora de envíos</div>
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow"><span class="accent-line" aria-hidden="true"></span> Logística · Berro</p>
+        <h1 id="page-title">Tu envío, <span>más simple.</span></h1>
+        <p class="intro-copy">Seleccioná los productos y sus cantidades.<br />Nosotros hacemos las cuentas.</p>
+      </section>
+      <div class="calculator-layout">
+        <section class="products-panel" aria-labelledby="products-title">
+          <div class="panel-heading"><div><p class="eyebrow">01 / Armá tu envío</p><h2 id="products-title">¿Qué vas a enviar?</h2></div><span class="panel-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m12 3 9 5v8l-9 5-9-5V8l9-5Z"/><path d="m3 8 9 5 9-5M12 13v8M7.5 5.5l9 5V14"/></svg></span></div>
+          <div id="productos">
+            <div class="producto">
+              <button type="button" class="eliminar" onclick="eliminarProducto(this)" aria-label="Quitar producto">✕</button>
+              <h2>Producto 1</h2>
+              <div class="product-fields">
+                <label class="product-field">Producto o empaque<select class="empaque"></select></label>
+                <label class="quantity-field">Cantidad<input class="cantidad" type="text" inputmode="numeric" pattern="[0-9]+" value="1" placeholder="Cantidad" /></label>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="add-product" onclick="agregarProducto()"><span aria-hidden="true">+</span> Agregar otro producto</button>
+          <p class="panel-note">Podés combinar distintos productos en un mismo cálculo.</p>
+        </section>
+        <aside class="summary" aria-labelledby="summary-title">
+          <p class="eyebrow">02 / Tu presupuesto</p>
+          <h2 id="summary-title">Resumen del envío</h2>
+          <div class="summary-route"><span class="route-mark" aria-hidden="true"></span><span>Transporte <strong>Berro</strong></span><span class="route-tag">Envío</span></div>
+          <div id="resultado" role="status" aria-live="polite" aria-atomic="true"></div>
+          <p class="included"><svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="8"/><path d="m6 10 3 3 5-6"/></svg> Incluye el costo de envío a agencia</p>
+          <div class="summary-footer"><span class="live-dot" aria-hidden="true"></span> El total se actualiza automáticamente</div>
+        </aside>
+      </div>
+      <div class="help-note"><span aria-hidden="true">↗</span><p>Todo para tu espacio, en un solo lugar. <a href="https://demarco.com.uy/">Conocé nuestros productos</a></p></div>
+    </main>
+    <footer class="site-footer"><div class="footer-inner"><span>De Marco · Calculadora de envíos Berro</span><a href="https://demarco.com.uy/">demarco.com.uy <span aria-hidden="true">↗</span></a></div></footer>
+    <script src="script.js?v=2"></script>
   </body>
 </html>

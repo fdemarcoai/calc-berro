@@ -67,20 +67,21 @@ function agregarProducto() {
   div.classList.add("producto");
 
   div.innerHTML = `
-    <button class="eliminar" onclick="eliminarProducto(this)">✕</button>
+    <button type="button" class="eliminar" onclick="eliminarProducto(this)" aria-label="Quitar producto">✕</button>
 
     <h2>Producto ${numeroProductos}</h2>
 
-   <select class="empaque"></select>
-
-    <input
+    <div class="product-fields">
+      <label class="product-field">Producto o empaque<select class="empaque"></select></label>
+      <label class="quantity-field">Cantidad<input
       class="cantidad"
       type="text"
       inputmode="numeric"
       pattern="[0-9]+"
       value="1"
       placeholder="Cantidad"
-    />
+      /></label>
+    </div>
   `;
 
   contenedor.appendChild(div);
