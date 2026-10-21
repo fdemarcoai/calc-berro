@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Berro</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Calculadora de Berro</h1>
+
+    <div id="productos">
+      <div class="producto">
+        <button class="eliminar" onclick="eliminarProducto(this)">✕</button>
+        <h2>Producto 1</h2>
+        <select class="empaque"></select>
+
+        <input
+          class="cantidad"
+          type="text"
+          inputmode="numeric"
+          pattern="[0-9]+"
+          value="1"
+          placeholder="Cantidad"
+        />
+      </div>
+    </div>
+
+    <button onclick="agregarProducto()">Agregar otro producto</button>
+
+    <h2 id="resultado"></h2>
+
+    <script src="script.js"></script>
+  </body>
+</html>
