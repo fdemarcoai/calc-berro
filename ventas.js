@@ -24,7 +24,7 @@ nuevaCotizacion.addEventListener("click", () => {
   eliminarProducto(productos[0].querySelector(".eliminar"));
   actualizarAcciones();
   estadoCotizacion.textContent = "Datos limpiados. Seleccioná un producto para comenzar otra cotización.";
-  productos[0].querySelector(".empaque").focus();
+  (productos[0].querySelector(".picker-trigger") || productos[0].querySelector(".empaque")).focus();
 });
 
 copiarTotal.addEventListener("click", async () => {

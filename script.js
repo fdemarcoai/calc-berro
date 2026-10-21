@@ -42,6 +42,8 @@ function cargarOpciones(select) {
     option.textContent = nombre;
     select.appendChild(option);
   }
+
+  if (typeof inicializarSelector === "function") inicializarSelector(select);
 }
 
 window.onload = function () {
@@ -72,7 +74,7 @@ function agregarProducto() {
     <h2>Producto ${numeroProductos}</h2>
 
     <div class="product-fields">
-      <label class="product-field">Producto o empaque<select class="empaque"></select></label>
+      <div class="product-field"><span>Producto o empaque</span><select class="empaque" aria-label="Producto o empaque"></select></div>
       <div class="quantity-field"><span>Cantidad</span><div class="quantity-control">
                   <input class="cantidad" type="text" inputmode="numeric" pattern="[0-9]+" value="1" placeholder="Cantidad" aria-label="Cantidad de unidades" />
                   <div class="quantity-buttons">
@@ -104,7 +106,10 @@ function eliminarProducto(boton) {
     const select = producto.querySelector(".empaque");
     const inputCantidad = producto.querySelector(".cantidad");
 
-    if (select) select.value = ""; // vuelve a "Seleccionar"
+    if (select) {
+      select.value = ""; // vuelve a "Seleccionar"
+      select.dispatchEvent(new Event("change", { bubbles: true }));
+    }
     if (inputCantidad) {
       inputCantidad.value = "1";
       inputCantidad.dataset.ultimaCantidadValida = "1";
