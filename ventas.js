@@ -65,6 +65,7 @@ function actualizarAcciones() {
     ? "Copiá productos, cantidades y total del envío para el presupuesto."
     : "Seleccioná un producto para copiar la cotización.";
   actualizarDesglose();
+  document.getElementById("total-movil").textContent = document.querySelector("#resultado .iva").textContent.trim();
 }
 
 function guardarCotizacion() {
