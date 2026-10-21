@@ -50,7 +50,7 @@ h1 span { color: var(--orange-dark); }
 .panel-icon svg { height: 25px; width: 25px; }
 .producto { position: relative; border-top: 1px solid var(--line); padding: 20px 0; }
 .producto h2 { margin: 0 48px 20px 0; font-size: 12px; font-weight: 700; }
-.product-fields { display: grid; grid-template-columns: minmax(0, 1fr) 100px; gap: 16px; }
+.product-fields { display: grid; grid-template-columns: minmax(0, 1fr) 120px; gap: 16px; }
 label { display: flex; flex-direction: column; gap: 9px; min-width: 0; font-size: 12px; font-weight: 600; color: #595852; }
 select, input { width: 100%; min-width: 0; height: 48px; border: 1px solid #d9d7d0; border-radius: 3px; background: #fff; color: var(--ink); padding: 0 12px; font-size: 16px; transition: border-color .15s, box-shadow .15s; }
 select { padding-right: 28px; cursor: pointer; text-overflow: ellipsis; }
@@ -89,7 +89,7 @@ select:focus, input:focus { outline: none; border-color: var(--orange-dark); box
   .summary { padding-left: 22px; padding-right: 22px; }
   .header-inner, .footer-inner { padding-left: 24px; padding-right: 24px; }
   .page { padding-left: 24px; padding-right: 24px; }
-  .product-fields { grid-template-columns: minmax(0, 1fr) 80px; gap: 10px; }
+  .product-fields { grid-template-columns: minmax(0, 1fr) 112px; gap: 10px; }
 }
 @media (max-width: 700px) {
   .calculator-layout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
@@ -117,3 +117,14 @@ select:focus, input:focus { outline: none; border-color: var(--orange-dark); box
 .copy-total:hover:not(:disabled) { background: #ffa65f; }
 .copy-total:disabled { cursor: default; background: #45453e; color: #c4c3ba; }
 .quote-status { min-height: 30px; margin: 10px 0 16px; color: #d6d5cd; font-size: 11px; line-height: 1.5; }
+
+.quantity-field { display: flex; flex-direction: column; gap: 9px; min-width: 0; font-size: 12px; font-weight: 600; color: #595852; }
+.quantity-control { display: flex; height: 48px; border: 1px solid #d9d7d0; border-radius: 3px; background: white; overflow: hidden; }
+.quantity-control:focus-within { border-color: var(--orange-dark); box-shadow: 0 0 0 3px #f47b2020; }
+.quantity-control .cantidad { flex: 1; width: 0; height: 100%; border: 0; border-radius: 0; padding: 0 6px; box-shadow: none; }
+.quantity-buttons { display: flex; flex-direction: column; flex-shrink: 0; width: 34px; border-left: 1px solid var(--line); }
+.quantity-step { flex: 1; min-height: 0; border: 0; background: #f7f6f3; color: #595852; font-size: 10px; padding: 0; }
+.quantity-step + .quantity-step { border-top: 1px solid var(--line); }
+.quantity-step:hover { background: #ffe6d1; color: #873800; }
+.quantity-step:active { background: #ffd1ac; }
+.quantity-step:focus-visible { outline-offset: -3px; }

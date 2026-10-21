@@ -73,14 +73,13 @@ function agregarProducto() {
 
     <div class="product-fields">
       <label class="product-field">Producto o empaque<select class="empaque"></select></label>
-      <label class="quantity-field">Cantidad<input
-      class="cantidad"
-      type="text"
-      inputmode="numeric"
-      pattern="[0-9]+"
-      value="1"
-      placeholder="Cantidad"
-      /></label>
+      <div class="quantity-field"><span>Cantidad</span><div class="quantity-control">
+                  <input class="cantidad" type="text" inputmode="numeric" pattern="[0-9]+" value="1" placeholder="Cantidad" aria-label="Cantidad de unidades" />
+                  <div class="quantity-buttons">
+                    <button type="button" class="quantity-step" data-step="1" aria-label="Aumentar cantidad"><span aria-hidden="true">▲</span></button>
+                    <button type="button" class="quantity-step" data-step="-1" aria-label="Disminuir cantidad"><span aria-hidden="true">▼</span></button>
+                  </div>
+                </div></div>
     </div>
   `;
 

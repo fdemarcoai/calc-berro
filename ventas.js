@@ -23,7 +23,7 @@ nuevaCotizacion.addEventListener("click", () => {
   });
   eliminarProducto(productos[0].querySelector(".eliminar"));
   actualizarAcciones();
-  estadoCotizacion.textContent = "Nueva cotización lista. Seleccioná el primer producto.";
+  estadoCotizacion.textContent = "Datos limpiados. Seleccioná un producto para comenzar otra cotización.";
   productos[0].querySelector(".empaque").focus();
 });
 
@@ -40,7 +40,26 @@ copiarTotal.addEventListener("click", async () => {
 
 listaProductos.addEventListener("input", actualizarAcciones);
 listaProductos.addEventListener("change", actualizarAcciones);
+
+function ajustarCantidad(input, paso) {
+  const actual = parseInt(input.value, 10) || 0;
+  input.value = String(Math.min(Number.MAX_SAFE_INTEGER, Math.max(0, actual + paso)));
+  input.dispatchEvent(new Event("input", { bubbles: true }));
+}
+
 listaProductos.addEventListener("click", (evento) => {
+  const flecha = evento.target.closest(".quantity-step");
+  if (flecha) {
+    const input = flecha.closest(".quantity-control").querySelector(".cantidad");
+    ajustarCantidad(input, Number(flecha.dataset.step));
+  }
   if (evento.target.closest(".eliminar")) actualizarAcciones();
+});
+listaProductos.addEventListener("keydown", (evento) => {
+  if (!evento.target.matches(".cantidad")) return;
+  if (evento.key === "ArrowUp" || evento.key === "ArrowDown") {
+    evento.preventDefault();
+    ajustarCantidad(evento.target, evento.key === "ArrowUp" ? 1 : -1);
+  }
 });
 window.addEventListener("load", actualizarAcciones);

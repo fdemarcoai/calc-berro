@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#f47b20" />
     <meta name="description" content="Herramienta de cotización de envíos Berro para el equipo de ventas de De Marco." />
     <title>Cotizador Berro · Ventas De Marco</title>
-    <link rel="stylesheet" href="styles.css?v=3" />
+    <link rel="stylesheet" href="styles.css?v=4" />
   </head>
   <body>
     <a class="skip-link" href="#calculadora">Ir a la calculadora</a>
@@ -24,7 +24,7 @@
         <p class="eyebrow"><span class="accent-line" aria-hidden="true"></span> Herramienta de cotización</p>
         <h1 id="page-title">Cotizador de envíos <span>Berro.</span></h1>
         <p class="intro-copy">Cargá los productos de la venta para calcular el importe del envío a cotizar.</p>
-      </div><button type="button" class="new-quote" id="nueva-cotizacion"><span aria-hidden="true">+</span> Nueva cotización</button></section>
+      </div><button type="button" class="new-quote" id="nueva-cotizacion"><span aria-hidden="true">↺</span> Limpiar todo</button></section>
       <div class="calculator-layout">
         <section class="products-panel" aria-labelledby="products-title">
           <div class="panel-heading"><div><p class="eyebrow">01 / Detalle de la venta</p><h2 id="products-title">Productos a enviar</h2></div><span class="panel-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m12 3 9 5v8l-9 5-9-5V8l9-5Z"/><path d="m3 8 9 5 9-5M12 13v8M7.5 5.5l9 5V14"/></svg></span></div>
@@ -34,7 +34,13 @@
               <h2>Producto 1</h2>
               <div class="product-fields">
                 <label class="product-field">Producto o empaque<select class="empaque"></select></label>
-                <label class="quantity-field">Cantidad<input class="cantidad" type="text" inputmode="numeric" pattern="[0-9]+" value="1" placeholder="Cantidad" /></label>
+                <div class="quantity-field"><span>Cantidad</span><div class="quantity-control">
+                  <input class="cantidad" type="text" inputmode="numeric" pattern="[0-9]+" value="1" placeholder="Cantidad" aria-label="Cantidad de unidades" />
+                  <div class="quantity-buttons">
+                    <button type="button" class="quantity-step" data-step="1" aria-label="Aumentar cantidad"><span aria-hidden="true">▲</span></button>
+                    <button type="button" class="quantity-step" data-step="-1" aria-label="Disminuir cantidad"><span aria-hidden="true">▼</span></button>
+                  </div>
+                </div></div>
               </div>
             </div>
           </div>
@@ -52,10 +58,10 @@
           <div class="summary-footer"><span class="live-dot" aria-hidden="true"></span> El total se actualiza automáticamente</div>
         </aside>
       </div>
-      <div class="help-note"><span aria-hidden="true">i</span><p>El total incluye IVA y el envío a agencia. Usá <strong>Nueva cotización</strong> para comenzar otra venta.</p></div>
+      <div class="help-note"><span aria-hidden="true">i</span><p>El total incluye IVA y el envío a agencia. Usá <strong>Limpiar todo</strong> para comenzar otra venta.</p></div>
     </main>
     <footer class="site-footer"><div class="footer-inner"><span>De Marco · Herramienta para el equipo de ventas</span><a href="https://demarco.com.uy/">demarco.com.uy <span aria-hidden="true">↗</span></a></div></footer>
-    <script src="script.js?v=3"></script>
-    <script src="ventas.js?v=3"></script>
+    <script src="script.js?v=4"></script>
+    <script src="ventas.js?v=4"></script>
   </body>
 </html>
