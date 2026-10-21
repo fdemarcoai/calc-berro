@@ -176,6 +176,7 @@ function calcular() {
 
   const resultadoEl = document.getElementById("resultado");
   resultadoEl.innerHTML = `Precio total: <span class="iva">$ ${total.toFixed(2)}</span> IVA inc.`;
+  document.dispatchEvent(new Event("cotizacion:actualizada"));
 }
 
 // Compatibilidad por si quedó alguna llamada vieja

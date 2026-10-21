@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#f47b20" />
     <meta name="description" content="Herramienta de cotización de envíos Berro para el equipo de ventas de De Marco." />
     <title>Cotizador Berro · Ventas De Marco</title>
-    <link rel="stylesheet" href="styles.css?v=5" />
+    <link rel="stylesheet" href="styles.css?v=6" />
   </head>
   <body>
     <a class="skip-link" href="#calculadora">Ir a la calculadora</a>
@@ -24,7 +24,8 @@
         <p class="eyebrow"><span class="accent-line" aria-hidden="true"></span> Herramienta de cotización</p>
         <h1 id="page-title">Cotizador de envíos <span>Berro.</span></h1>
         <p class="intro-copy">Cargá los productos de la venta para calcular el importe del envío a cotizar.</p>
-      </div><button type="button" class="new-quote" id="nueva-cotizacion"><span aria-hidden="true">↺</span> Limpiar todo</button></section>
+        <p class="save-status" id="estado-guardado" role="status">El cálculo se guarda en este navegador.</p>
+      </div><div class="quote-actions"><button type="button" class="new-quote" id="nueva-cotizacion"><span aria-hidden="true">↺</span> Limpiar todo</button><button type="button" class="undo-quote" id="deshacer-limpieza" hidden>↶ Deshacer limpieza</button></div></section>
       <div class="calculator-layout">
         <section class="products-panel" aria-labelledby="products-title">
           <div class="panel-heading"><div><p class="eyebrow">01 / Detalle de la venta</p><h2 id="products-title">Productos a enviar</h2></div><span class="panel-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m12 3 9 5v8l-9 5-9-5V8l9-5Z"/><path d="m3 8 9 5 9-5M12 13v8M7.5 5.5l9 5V14"/></svg></span></div>
@@ -53,17 +54,29 @@
           <div class="summary-route"><span class="route-mark" aria-hidden="true"></span><span>Transporte <strong>Berro</strong></span><span class="route-tag">Cotización</span></div>
           <div id="resultado" role="status" aria-live="polite" aria-atomic="true"></div>
           <p class="included"><svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="8"/><path d="m6 10 3 3 5-6"/></svg> Incluye el costo de envío a agencia</p>
-          <button type="button" class="copy-total" id="copiar-total" disabled>Copiar importe del envío <span aria-hidden="true">↗</span></button>
+          <details class="cost-breakdown">
+            <summary>Ver desglose interno <span aria-hidden="true">⌄</span></summary>
+            <dl>
+              <div><dt>Tarifas base de productos</dt><dd id="detalle-base">$ 0.00</dd></div>
+              <div><dt>IVA <span id="tasa-iva"></span></dt><dd id="detalle-iva">$ 0.00</dd></div>
+              <div><dt>Recargo De Marco <span id="tasa-recargo"></span></dt><dd id="detalle-recargo">$ 0.00</dd></div>
+              <div><dt>Traslado a agencia</dt><dd id="detalle-agencia">$ 0.00</dd></div>
+              <div class="breakdown-total"><dt>Total del envío</dt><dd id="detalle-total">$ 0.00</dd></div>
+            </dl>
+            <p>El recargo se aplica a la base con IVA. El traslado a agencia se suma al final.</p>
+          </details>
+          <button type="button" class="copy-total" id="copiar-total" disabled>Copiar cotización completa <span aria-hidden="true">↗</span></button>
           <p id="estado-cotizacion" class="quote-status" role="status" aria-live="polite">Seleccioná un producto para copiar la cotización.</p>
+          <div id="copia-manual" class="manual-copy" hidden><label for="texto-cotizacion">Copiá este texto para compartir la cotización</label><textarea id="texto-cotizacion" readonly rows="8"></textarea></div>
           <div class="summary-footer"><span class="live-dot" aria-hidden="true"></span> El total se actualiza automáticamente</div>
         </aside>
       </div>
-      <div class="help-note"><span aria-hidden="true">i</span><p>El total incluye IVA y el envío a agencia. Usá <strong>Limpiar todo</strong> para comenzar otra venta.</p></div>
+      <div class="help-note"><span aria-hidden="true">i</span><p>El total incluye IVA y el envío a agencia. Usá <strong>Limpiar todo</strong> para comenzar otra venta. Si fue por error, tocá <strong>Deshacer limpieza</strong>.</p></div>
     </main>
     <footer class="site-footer"><div class="footer-inner"><span>De Marco · Herramienta para el equipo de ventas</span><a href="https://demarco.com.uy/">demarco.com.uy <span aria-hidden="true">↗</span></a></div></footer>
-    <script src="catalogo-fotos.js?v=5"></script>
-    <script src="selector-productos.js?v=5"></script>
-    <script src="script.js?v=5"></script>
-    <script src="ventas.js?v=5"></script>
+    <script src="catalogo-fotos.js?v=6"></script>
+    <script src="selector-productos.js?v=6"></script>
+    <script src="script.js?v=6"></script>
+    <script src="ventas.js?v=6"></script>
   </body>
 </html>

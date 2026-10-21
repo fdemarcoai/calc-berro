@@ -158,3 +158,25 @@ select:focus, input:focus { outline: none; border-color: var(--orange-dark); box
   .product-fields { grid-template-columns: minmax(0, 1fr); gap: 15px; }
   .quantity-field { max-width: 140px; }
 }
+
+.quote-actions { display: flex; flex-direction: column; align-items: stretch; gap: 9px; flex-shrink: 0; }
+.undo-quote { min-height: 38px; border: 0; border-radius: 4px; padding: 8px 12px; background: #fff0e3; color: #873800; font-size: 12px; font-weight: 600; }
+.undo-quote:hover { background: #ffe1c7; }
+.undo-quote[hidden], .manual-copy[hidden] { display: none; }
+.save-status { margin: 10px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.cost-breakdown { margin: 0 0 22px; border-top: 1px solid #484841; border-bottom: 1px solid #484841; font-size: 11px; }
+.cost-breakdown summary { min-height: 44px; padding: 14px 0; display: flex; justify-content: space-between; gap: 10px; cursor: pointer; color: #f1efe7; list-style: none; }
+.cost-breakdown summary::-webkit-details-marker { display: none; }
+.cost-breakdown[open] summary > span { transform: rotate(180deg); }
+.cost-breakdown dl { margin: 0 0 16px; }
+.cost-breakdown dl > div { display: flex; justify-content: space-between; gap: 14px; padding: 8px 0; color: #d6d5cd; line-height: 1.5; }
+.cost-breakdown dt { max-width: 65%; }
+.cost-breakdown dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.cost-breakdown .breakdown-total { border-top: 1px solid #484841; margin-top: 7px; padding-top: 13px; color: white; font-weight: 700; }
+.cost-breakdown > p { color: #c9c8c0; font-size: 10px; line-height: 1.6; margin: 0 0 16px; }
+.manual-copy { margin: 0 0 18px; }
+.manual-copy label { color: #d6d5cd; font-size: 11px; line-height: 1.5; }
+.manual-copy textarea { width: 100%; margin-top: 8px; padding: 10px; border: 1px solid #716d62; border-radius: 4px; font: inherit; font-size: 12px; line-height: 1.6; color: var(--ink); background: white; resize: vertical; }
+@media (max-width: 700px) {
+  .quote-actions { width: 100%; }
+}
