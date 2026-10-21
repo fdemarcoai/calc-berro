@@ -1,0 +1,185 @@
+/* Estilo global */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+}
+
+/* Título principal */
+h1 {
+  font-size: 2.5rem;
+  color: #007bff;
+  margin-top: 30px;
+  margin-bottom: 60px;
+}
+
+/* Estilos para los contenedores de productos */
+#productos {
+  width: 80%;
+  max-width: 800px;
+  margin-top: 20px;
+}
+
+#resultado.error {
+  color: red;
+}
+
+#resultado.correcto {
+  color: black;
+}
+
+.iva {
+  color: green;
+}
+/* Estilos para cada producto */
+.producto {
+  position: relative;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Estilo para los encabezados de cada producto */
+.producto h2 {
+  font-size: 1.6rem;
+  color: #5b5b5b;
+  margin-bottom: 10px;
+}
+
+/* Etiquetas */
+label {
+  font-size: 1.5rem;
+  color: #444;
+  margin-right: 10px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Select y Input */
+select,
+input {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 250px;
+  margin-bottom: 10px;
+}
+
+select:focus,
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Espaciado entre los elementos de cada producto */
+.producto > * {
+  margin-bottom: 15px;
+}
+
+/* Botón para agregar productos */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.eliminar {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  width: 32px;
+  height: 32px;
+
+  border-radius: 50%;
+  border: none;
+
+  background-color: #f8d7da;
+  color: #c0392b;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.eliminar:hover {
+  background-color: #e74c3c;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Estilo para el mensaje de resultado */
+#resultado {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 30px;
+}
+
+/* Contenedor general de la página */
+.container {
+  width: 90%;
+  max-width: 900px;
+  padding: 20px;
+  margin-top: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.sugerencia:hover {
+  color: #0056b3;
+  cursor: pointer;
+}
+/* Estilos para el footer o cualquier contenido extra */
+footer {
+  margin-top: auto;
+  padding: 10px 0;
+  text-align: center;
+  background-color: #007bff;
+  color: white;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
