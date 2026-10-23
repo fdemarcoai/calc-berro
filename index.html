@@ -75,17 +75,18 @@
       </div>
       <div class="help-note"><span aria-hidden="true">i</span><p>Los impuestos y el traslado se aplican según el producto seleccionado. Usá <strong>Limpiar todo</strong> para comenzar otra venta. Si fue por error, tocá <strong>Deshacer limpieza</strong>.</p></div>
     </main>
-    <footer class="site-footer"><div class="footer-inner"><span>De Marco · Herramienta para el equipo de ventas</span><button type="button" class="footer-catalog-link" id="abrir-tarifas" aria-haspopup="dialog" aria-controls="tarifas-productos">Productos y precios</button><a href="https://demarco.com.uy/">demarco.com.uy <span aria-hidden="true">↗</span></a></div></footer>
+    <footer class="site-footer"><div class="footer-inner"><span>De Marco · Herramienta para el equipo de ventas</span><button type="button" class="footer-catalog-link" id="abrir-tarifas" aria-haspopup="dialog" aria-controls="tarifas-productos">Tarifas base de envío</button><a href="https://demarco.com.uy/">demarco.com.uy <span aria-hidden="true">↗</span></a></div></footer>
     <dialog class="tariff-dialog" id="tarifas-productos" aria-labelledby="titulo-tarifas" aria-describedby="nota-tarifas">
-      <header class="tariff-header"><div><p class="eyebrow">Catálogo de consulta</p><h2 id="titulo-tarifas">Productos y precios</h2></div><button type="button" id="cerrar-tarifas" class="tariff-close" aria-label="Cerrar tabla de productos y precios" autofocus>✕</button></header>
-      <div class="tariff-table-scroll"><table class="tariff-table"><caption class="visually-hidden">Productos y sus tarifas base configuradas</caption><thead><tr><th scope="col">Producto o empaque</th><th scope="col">Tarifa base de producto</th></tr></thead><tbody id="filas-tarifas"></tbody></table></div>
-      <p class="tariff-note" id="nota-tarifas">Importes base del catálogo. Cada producto conserva sus reglas de impuestos y traslado.</p>
+      <header class="tariff-header"><div><p class="eyebrow">Catálogo de consulta</p><h2 id="titulo-tarifas">Tarifas base de envío</h2></div><button type="button" id="cerrar-tarifas" class="tariff-close" aria-label="Cerrar tabla de tarifas base de envío" autofocus>✕</button></header>
+      <div class="tariff-table-scroll" tabindex="0" role="region" aria-label="Tabla de tarifas base de envío"><table class="tariff-table"><caption class="visually-hidden">Tarifas base de envío por producto o empaque</caption><thead><tr><th scope="col">Producto o empaque</th><th scope="col">Tarifa base de envío</th></tr></thead><tbody id="filas-tarifas"></tbody></table></div>
+      <p class="tariff-note" id="nota-tarifas">Son tarifas de envío, no precios de los muebles ni una cotización final. El cotizador aplica IVA, recargo y traslado cuando corresponden; en modo Licitación omite el traslado a agencia. Usá el total del cotizador para presupuestar.</p>
     </dialog>
     <script src="calculo-original.js?v=20"></script>
     <script src="selector-productos.js?v=19"></script>
     <script src="script.js?v=16"></script>
     <script src="ventas.js?v=20"></script>
     <script src="panel-cotizacion.js?v=11"></script>
-    <script src="tabla-tarifas.js?v=1"></script>
+    <script src="tabla-tarifas.js?v=2"></script>
   </body>
 </html>
+
