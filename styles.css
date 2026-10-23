@@ -130,6 +130,12 @@ select:focus, input:focus { outline: none; border-color: var(--orange-dark); box
 .product-field { display: flex; flex-direction: column; gap: 9px; min-width: 0; font-size: 12px; font-weight: 600; color: #595852; }
 .product-field > select[hidden] { display: none; }
 .product-picker { min-width: 0; }
+.picker-input-wrap { position: relative; }
+.product-type-icon { display: block; width: 20px; height: 20px; flex: 0 0 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; color: #66645e; }
+.picker-selected-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+.picker-selected-icon[hidden] { display: none; }
+.has-selection .picker-search { padding-left: 43px; }
+.picker-option[aria-selected="true"] .product-type-icon { color: var(--orange); }
 .picker-panel { margin-top: 8px; border: 1px solid #d9d7d0; border-radius: 5px; background: white; padding: 8px; box-shadow: 0 5px 18px #2222200a; }
 .picker-panel[hidden], .picker-empty[hidden] { display: none; }
 .picker-search { text-align: left; font-size: 16px; height: 48px; margin: 0; font-weight: 400; }
