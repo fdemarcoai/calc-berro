@@ -196,3 +196,31 @@ select:focus, input:focus { outline: none; border-color: var(--orange-dark); box
 .product-note[hidden] { display: none; }
 
 .picker-option-text > .picker-option-detail { color: #b42318; font-size: 12px; }
+
+.footer-catalog-link { padding: 4px 0; border: 0; background: transparent; font: inherit; color: #767676; text-decoration: underline; text-decoration-color: #c9c7c0; text-underline-offset: 3px; }
+.footer-catalog-link:hover { color: var(--orange-dark); text-decoration-color: currentColor; }
+body.tarifas-abiertas { overflow: hidden; }
+.tariff-dialog { width: min(740px, calc(100% - 32px)); max-height: calc(100dvh - 48px); margin: auto; padding: 0; border: 1px solid var(--line); border-radius: 8px; background: white; color: var(--ink); box-shadow: 0 16px 60px #0003; }
+.tariff-dialog[open] { display: flex; flex-direction: column; }
+.tariff-dialog::backdrop { background: #17171480; }
+.tariff-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 22px 24px; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+.tariff-header .eyebrow { color: var(--orange-dark); margin-bottom: 8px; }
+.tariff-header h2 { margin: 0; font-size: 23px; letter-spacing: -.6px; }
+.tariff-close { width: 40px; height: 40px; flex-shrink: 0; border: 1px solid var(--line); border-radius: 4px; background: white; color: var(--muted); }
+.tariff-close:hover { color: var(--orange-dark); background: #fff5ec; }
+.tariff-table-scroll { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 24px; }
+.tariff-table { width: 100%; border-collapse: collapse; font-size: 13px; line-height: 1.5; }
+.tariff-table th { position: sticky; top: 0; background: var(--paper); padding: 13px 12px; text-align: left; color: #595852; font-size: 11px; font-weight: 600; }
+.tariff-table td { padding: 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.tariff-table td:last-child, .tariff-table th:last-child { text-align: right; }
+.tariff-table td:last-child { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tariff-table td small { display: block; margin-top: 3px; font-size: 11px; color: var(--muted); }
+.tariff-note { flex-shrink: 0; margin: 0; padding: 16px 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; line-height: 1.6; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 520px) {
+  .tariff-header { padding: 18px 16px; }
+  .tariff-table-scroll { padding: 0 8px; }
+  .tariff-table { font-size: 12px; }
+  .tariff-table td, .tariff-table th { padding: 10px 8px; }
+  .tariff-note { padding: 14px 16px; }
+}

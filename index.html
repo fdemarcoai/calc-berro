@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#f47b20" />
     <meta name="description" content="Herramienta de cotización de envíos Berro para el equipo de ventas de De Marco." />
     <title>Cotizador Berro · Ventas De Marco</title>
-    <link rel="stylesheet" href="styles.css?v=16" />
+    <link rel="stylesheet" href="styles.css?v=17" />
   </head>
   <body>
     <a class="skip-link" href="#calculadora">Ir a la calculadora</a>
@@ -74,11 +74,17 @@
       </div>
       <div class="help-note"><span aria-hidden="true">i</span><p>Los impuestos y el traslado se aplican según el producto seleccionado. Usá <strong>Limpiar todo</strong> para comenzar otra venta. Si fue por error, tocá <strong>Deshacer limpieza</strong>.</p></div>
     </main>
-    <footer class="site-footer"><div class="footer-inner"><span>De Marco · Herramienta para el equipo de ventas</span><a href="https://demarco.com.uy/">demarco.com.uy <span aria-hidden="true">↗</span></a></div></footer>
+    <footer class="site-footer"><div class="footer-inner"><span>De Marco · Herramienta para el equipo de ventas</span><button type="button" class="footer-catalog-link" id="abrir-tarifas" aria-haspopup="dialog" aria-controls="tarifas-productos">todos Productos y Precios</button><a href="https://demarco.com.uy/">demarco.com.uy <span aria-hidden="true">↗</span></a></div></footer>
+    <dialog class="tariff-dialog" id="tarifas-productos" aria-labelledby="titulo-tarifas" aria-describedby="nota-tarifas">
+      <header class="tariff-header"><div><p class="eyebrow">Catálogo de consulta</p><h2 id="titulo-tarifas">Productos y precios</h2></div><button type="button" id="cerrar-tarifas" class="tariff-close" aria-label="Cerrar tabla de productos y precios" autofocus>✕</button></header>
+      <div class="tariff-table-scroll"><table class="tariff-table"><caption class="visually-hidden">Productos y sus tarifas base configuradas</caption><thead><tr><th scope="col">Producto o empaque</th><th scope="col">Tarifa base de producto</th></tr></thead><tbody id="filas-tarifas"></tbody></table></div>
+      <p class="tariff-note" id="nota-tarifas">Importes base del catálogo. Cada producto conserva sus reglas de impuestos y traslado.</p>
+    </dialog>
     <script src="calculo-original.js?v=16"></script>
     <script src="selector-productos.js?v=16"></script>
     <script src="script.js?v=16"></script>
     <script src="ventas.js?v=14"></script>
     <script src="panel-cotizacion.js?v=11"></script>
+    <script src="tabla-tarifas.js?v=1"></script>
   </body>
 </html>
