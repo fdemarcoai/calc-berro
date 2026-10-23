@@ -191,3 +191,6 @@ select:focus, input:focus { outline: none; border-color: var(--orange-dark); box
 
 .currency-note { margin: 0 0 16px; padding: 10px; border: 1px solid #bc8c51; border-radius: 4px; color: #ffe2bd; font-size: 11px; line-height: 1.6; }
 .currency-note[hidden] { display: none; }
+
+.product-note { margin: 8px 0 0; color: var(--orange-dark); font-size: 12px; font-weight: 400; line-height: 1.5; overflow-wrap: anywhere; }
+.product-note[hidden] { display: none; }

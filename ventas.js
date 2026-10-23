@@ -1,4 +1,4 @@
-// Acciones de ventas y persistencia local. Las tarifas y la fórmula están en script.js.
+// Acciones de ventas y persistencia local. Las tarifas y la fórmula están en calculo-original.js.
 const nuevaCotizacion = document.getElementById("nueva-cotizacion");
 const deshacerLimpieza = document.getElementById("deshacer-limpieza");
 const copiarTotal = document.getElementById("copiar-total");
@@ -47,7 +47,7 @@ function actualizarDesglose() {
   let baseConIva = 0;
   filasConImporte().filter(fila => monedaProducto(fila) === moneda).forEach(fila => {
     const config = preciosEmpaques[fila.producto];
-    const cantidad = parseInt(fila.cantidad, 10);
+    const cantidad = cantidadFacturable(fila.producto, parseInt(fila.cantidad, 10));
     base += config.precio * cantidad;
     let precioConIva = config.precio;
     if (!config.fijo && config.iva !== false) precioConIva *= iva;
@@ -169,7 +169,7 @@ function construirCotizacion() {
   return [
     "De Marco · Cotización de envío por Berro",
     "",
-    ...filas.map(fila => `• ${fila.producto} × ${parseInt(fila.cantidad, 10)}`),
+    ...filas.map(fila => `• ${nombreProducto(fila.producto)} × ${parseInt(fila.cantidad, 10)}${preciosEmpaques[fila.producto]?.unidadesPorPaquete ? ` unidades — ${detalleEmpaque(fila.producto, fila.cantidad)}` : ""}`),
     "",
     `Total del envío: ${importe}.`,
     "IVA e impuestos según producto, incluidos cuando corresponde.",
@@ -271,9 +271,9 @@ window.addEventListener("load", () => {
     filasAntesDeLimpiar = validarFilas(guardada.deshacer) ? adaptarFilasAlCatalogo(guardada.deshacer) : null;
     aplicarFilas(adaptarFilasAlCatalogo(guardada.filas));
     if (haySeleccionesEliminadas) {
-      aviso = "Recuperamos las cantidades. Algunas selecciones ya no están en el catálogo original: volvé a elegir esos productos.";
+      aviso = "Recuperamos las cantidades. Algunas selecciones ya no están en el catálogo actual: volvé a elegir esos productos.";
     } else if (guardada.catalogo !== firmaCatalogo) {
-      aviso = "Cotización recuperada y recalculada con las tarifas de la versión original indicada.";
+      aviso = "Cotización recuperada y recalculada con el catálogo actual. Los pórticos se cobran por paquete de hasta 2 unidades en cada línea.";
     }
   }
   cotizacionLista = true;

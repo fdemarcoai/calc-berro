@@ -39,6 +39,12 @@ function inicializarSelector(select) {
   vacio.hidden = true;
   panel.append(lista, vacio);
   selector.append(busqueda, panel);
+  const nota = document.createElement("p");
+  nota.className = "product-note";
+  nota.id = `${id}-nota`;
+  nota.hidden = true;
+  select.closest(".producto").querySelector(".cantidad").setAttribute("aria-describedby", nota.id);
+  selector.append(nota);
   select.after(selector);
   // El select conserva los valores y eventos usados por la calculadora.
   select.hidden = true;
@@ -47,8 +53,8 @@ function inicializarSelector(select) {
   let activo = -1;
 
   function sincronizar() {
-    busqueda.value = select.value;
-    busqueda.title = select.value;
+    busqueda.value = nombreProducto(select.value);
+    busqueda.title = nombreProducto(select.value);
     selector.classList.toggle("has-selection", Boolean(select.value));
   }
 
@@ -78,7 +84,7 @@ function inicializarSelector(select) {
       const texto = document.createElement("span");
       texto.className = "picker-option-text";
       const nombre = document.createElement("span");
-      nombre.textContent = opcion.value || "Sin producto seleccionado";
+      nombre.textContent = opcion.textContent;
       texto.appendChild(nombre);
       item.appendChild(texto);
       lista.appendChild(item);

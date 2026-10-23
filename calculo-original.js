@@ -8,9 +8,6 @@ const preciosEmpaques = {
   "Tandem de 2 asientos": { precio: 935, envio: 350, moneda: "$" },
   "Tandem de 3 asientos": { precio: 1531, envio: 350, moneda: "$" },
   "Tandem de 4 asientos": { precio: 2170, envio: 350, moneda: "$" },
-  "Tandem de 5 asientos": { precio: 2283, envio: 350, moneda: "$" },
-  "Tandem de 6 asientos": { precio: 2760, envio: 350, moneda: "$" },
-  "Tandem de 8 asientos": { precio: 3561, envio: 350, moneda: "$" },
   "Fichero 4 cajones": { precio: 1291, envio: 350, moneda: "$" },
   "Estanterías de 2 mts": { precio: 1406, envio: 350, moneda: "$" },
   "Bulto estantería (parantes, estantes)": {
@@ -18,14 +15,15 @@ const preciosEmpaques = {
     envio: 350,
     moneda: "$",
   },
+  "Escalera multiuso": { precio: 354, envio: 350, moneda: "$" },
   "Sillas por 4": { precio: 315, envio: 350, moneda: "$" },
   "Sillas por 5": { precio: 365, envio: 350, moneda: "$" },
   "Silla de oficina": { precio: 446, envio: 350, moneda: "$" },
-  Pórtico: { precio: 728, envio: 350, moneda: "$" },
+  Pórtico: { precio: 728, envio: 350, moneda: "$", unidadesPorPaquete: 2, nombre: "Pórtico (2 unidades por paquete)" },
   "Racks 1,90 (heavy duty, summit)": { precio: 1738, envio: 350, moneda: "$" },
-  "Escritorio chico": { precio: 923, envio: 350, moneda: "$" },
+  "Escritorio chico": { precio: 923, envio: 350, moneda: "$", nombre: "Escritorio chico (hasta 1,20 m inclusive)", detalle: "Medida: hasta 1,20 m inclusive." },
   "Pupitres armados": { precio: 923, envio: 350, moneda: "$" },
-  "Escritorio grande": { precio: 1298, envio: 350, moneda: "$" },
+  "Escritorio grande": { precio: 1298, envio: 350, moneda: "$", nombre: "Escritorio grande (desde 1,21 m inclusive)", detalle: "Medida: desde 1,21 m inclusive en adelante." },
   "Armarios metálicos Desarmados": {
     precio: 354,
     envio: 350,
@@ -74,6 +72,22 @@ const preciosEmpaques = {
   },
 };
 
+// Las claves se conservan para recuperar las cotizaciones guardadas.
+function nombreProducto(producto) {
+  return preciosEmpaques[producto]?.nombre || producto;
+}
+
+function cantidadFacturable(producto, cantidad) {
+  const unidadesPorPaquete = preciosEmpaques[producto]?.unidadesPorPaquete || 1;
+  return Math.ceil(Math.max(0, Number(cantidad) || 0) / unidadesPorPaquete);
+}
+
+function detalleEmpaque(producto, cantidad) {
+  if (!preciosEmpaques[producto]?.unidadesPorPaquete) return "";
+  const paquetes = cantidadFacturable(producto, cantidad);
+  return `${paquetes} ${paquetes === 1 ? "paquete" : "paquetes"} de hasta 2 unidades. Se cobra por paquete en esta línea.`;
+}
+
 function opcionesEmpaquesHTML() {
   const nombres = Object.keys(preciosEmpaques).sort((a, b) =>
     a.localeCompare(b, "es", { sensitivity: "base" }),
@@ -82,7 +96,7 @@ function opcionesEmpaquesHTML() {
   let html = "<option value=''>Seleccionar</option>";
 
   for (const n of nombres) {
-    html += `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`;
+    html += `<option value="${escapeHtml(n)}">${escapeHtml(nombreProducto(n))}</option>`;
   }
 
   return html;
@@ -163,6 +177,7 @@ function calcularProducto(empaque, cantidad) {
   const config = preciosEmpaques[empaque];
   if (!config) return 0;
 
+  cantidad = cantidadFacturable(empaque, cantidad);
   let precio = config.precio;
 
   if (config.fijo) {

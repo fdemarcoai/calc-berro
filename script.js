@@ -5,7 +5,7 @@ function cargarOpciones(select) {
   for (const nombre of nombres) {
     const option = document.createElement("option");
     option.value = nombre;
-    option.textContent = nombre;
+    option.textContent = nombreProducto(nombre);
     select.appendChild(option);
   }
 
@@ -124,10 +124,23 @@ function conectarEventosEnProducto(producto) {
   }
 }
 
-// Conserva intactas las cuentas de calculo-original.js y notifica a la interfaz.
+function actualizarIndicacionesProductos() {
+  document.querySelectorAll(".producto").forEach(fila => {
+    const producto = fila.querySelector(".empaque").value;
+    const cantidad = fila.querySelector(".cantidad");
+    const nota = fila.querySelector(".product-note");
+    nota.textContent = detalleEmpaque(producto, cantidad.value) || preciosEmpaques[producto]?.detalle || "";
+    fila.querySelector(".quantity-field").querySelector("span").textContent = producto === "Pórtico" ? "Unidades" : "Cantidad";
+    nota.hidden = !nota.textContent;
+    cantidad.setAttribute("aria-label", producto === "Pórtico" ? "Cantidad de pórticos (unidades)" : "Cantidad de unidades");
+  });
+}
+
+// Recalcula con las reglas del catálogo y actualiza las indicaciones de empaque.
 const calcularVersionOriginal = calcular;
 calcular = function calcularConInterfaz() {
   calcularVersionOriginal();
+  actualizarIndicacionesProductos();
   document.dispatchEvent(new Event("cotizacion:actualizada"));
 };
 
