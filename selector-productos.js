@@ -12,13 +12,6 @@ function inicializarSelector(select) {
   const id = `selector-producto-${++siguienteSelector}`;
   const selector = document.createElement("div");
   selector.className = "product-picker";
-  const boton = document.createElement("button");
-  boton.type = "button";
-  boton.className = "picker-trigger";
-  boton.setAttribute("aria-haspopup", "listbox");
-  boton.setAttribute("aria-expanded", "false");
-  boton.setAttribute("aria-controls", `${id}-lista`);
-
   const panel = document.createElement("div");
   panel.className = "picker-panel";
   panel.hidden = true;
@@ -27,6 +20,8 @@ function inicializarSelector(select) {
   busqueda.type = "search";
   busqueda.placeholder = "Buscar producto o empaque…";
   busqueda.autocomplete = "off";
+  busqueda.spellcheck = false;
+  busqueda.id = id;
   busqueda.setAttribute("role", "combobox");
   busqueda.setAttribute("aria-label", "Buscar producto o empaque");
   busqueda.setAttribute("aria-autocomplete", "list");
@@ -42,8 +37,8 @@ function inicializarSelector(select) {
   vacio.textContent = "No hay coincidencias. Probá con otro nombre.";
   vacio.setAttribute("role", "status");
   vacio.hidden = true;
-  panel.append(busqueda, lista, vacio);
-  selector.append(boton, panel);
+  panel.append(lista, vacio);
+  selector.append(busqueda, panel);
   select.after(selector);
   // El select conserva los valores y eventos usados por la calculadora.
   select.hidden = true;
@@ -52,16 +47,8 @@ function inicializarSelector(select) {
   let activo = -1;
 
   function sincronizar() {
-    boton.replaceChildren();
-    const texto = document.createElement("span");
-    texto.className = "picker-name";
-    texto.textContent = select.value || "Seleccionar producto o empaque";
-    const flecha = document.createElement("span");
-    flecha.className = "picker-chevron";
-    flecha.textContent = "⌄";
-    flecha.setAttribute("aria-hidden", "true");
-    boton.append(texto, flecha);
-    boton.setAttribute("aria-label", `Producto o empaque: ${select.value || "sin seleccionar"}`);
+    busqueda.value = select.value;
+    busqueda.title = select.value;
     selector.classList.toggle("has-selection", Boolean(select.value));
   }
 
@@ -77,11 +64,11 @@ function inicializarSelector(select) {
   }
 
   function renderizar() {
-    const filtro = normalizarBusqueda(busqueda.value);
+    const filtro = normalizarBusqueda(panel.hidden ? "" : busqueda.value);
     lista.replaceChildren();
     opcionesVisibles = [];
     [...select.options].forEach((opcion, indice) => {
-      if (filtro && (!opcion.value || !normalizarBusqueda(opcion.textContent).includes(filtro))) return;
+      if (!opcion.value || (filtro && !normalizarBusqueda(opcion.textContent).includes(filtro))) return;
       const item = document.createElement("div");
       item.id = `${id}-opcion-${indice}`;
       item.className = "picker-option";
@@ -101,56 +88,55 @@ function inicializarSelector(select) {
     activar(Math.max(0, opcionesVisibles.findIndex(item => item.dataset.value === select.value)), false);
   }
 
-  function cerrar(enfocar = false) {
+  function cerrar() {
     panel.hidden = true;
-    boton.setAttribute("aria-expanded", "false");
     busqueda.setAttribute("aria-expanded", "false");
     busqueda.removeAttribute("aria-activedescendant");
     if (selectorAbierto?.elemento === selector) selectorAbierto = null;
-    if (enfocar) boton.focus();
+    sincronizar();
   }
 
   function abrir() {
+    if (!panel.hidden) return;
     if (selectorAbierto) selectorAbierto.cerrar();
     selectorAbierto = { elemento: selector, cerrar };
-    busqueda.value = "";
     renderizar();
     panel.hidden = false;
-    boton.setAttribute("aria-expanded", "true");
     busqueda.setAttribute("aria-expanded", "true");
-    busqueda.focus({ preventScroll: true });
-    // El panel ocupa espacio debajo del campo: no se superpone ni invierte su apertura.
-    panel.scrollIntoView({ block: "nearest" });
-    activar(activo);
   }
 
   function elegir(item) {
     if (!item) return;
     select.value = item.dataset.value;
     select.dispatchEvent(new Event("change", { bubbles: true }));
-    cerrar(true);
+    cerrar();
+    const cantidad = select.closest(".producto").querySelector(".cantidad");
+    cantidad.focus();
+    cantidad.select();
   }
 
-  boton.addEventListener("click", () => panel.hidden ? abrir() : cerrar());
-  boton.addEventListener("keydown", evento => {
-    if (evento.key === "ArrowDown" || evento.key === "ArrowUp") {
-      evento.preventDefault();
-      abrir();
-    }
+  busqueda.addEventListener("focus", () => {
+    abrir();
+    busqueda.select();
   });
-  busqueda.addEventListener("input", renderizar);
+  busqueda.addEventListener("click", abrir);
+  busqueda.addEventListener("input", () => {
+    abrir();
+    renderizar();
+  });
   busqueda.addEventListener("keydown", evento => {
-    if (["ArrowDown", "ArrowUp", "Home", "End", "Enter", "Escape"].includes(evento.key)) {
+    if (evento.isComposing) return;
+    if (["ArrowDown", "ArrowUp", "Enter", "Escape"].includes(evento.key)) {
       evento.preventDefault();
+      if (evento.key !== "Escape" && panel.hidden) abrir();
       if (evento.key === "ArrowDown") activar(activo + 1);
       if (evento.key === "ArrowUp") activar(activo - 1);
-      if (evento.key === "Home") activar(0);
-      if (evento.key === "End") activar(opcionesVisibles.length - 1);
       if (evento.key === "Enter") elegir(opcionesVisibles[activo]);
-      if (evento.key === "Escape") cerrar(true);
+      if (evento.key === "Escape") cerrar();
     }
     if (evento.key === "Tab") cerrar();
   });
+  lista.addEventListener("mousedown", evento => evento.preventDefault());
   lista.addEventListener("click", evento => {
     elegir(evento.target.closest('[role="option"]'));
   });

@@ -23,13 +23,14 @@ window.onload = function () {
     conectarEventosEnProducto(producto);
   });
 
+  actualizarNumeracion();
+
   // Calcula una vez al inicio (por si ya hay valores)
   calcular();
 };
 
 function agregarProducto() {
   const contenedor = document.getElementById("productos");
-  const numeroProductos = document.querySelectorAll(".producto").length + 1;
 
   const div = document.createElement("div");
   div.classList.add("producto");
@@ -37,16 +38,13 @@ function agregarProducto() {
   div.innerHTML = `
     <button type="button" class="eliminar" onclick="eliminarProducto(this)" aria-label="Quitar producto">✕</button>
 
-    <h2>Producto ${numeroProductos}</h2>
 
     <div class="product-fields">
       <div class="product-field"><span>Producto o empaque</span><select class="empaque" aria-label="Producto o empaque"></select></div>
       <div class="quantity-field"><span>Cantidad</span><div class="quantity-control">
+                  <button type="button" class="quantity-step" data-step="-1" aria-label="Disminuir cantidad">−</button>
                   <input class="cantidad" type="text" inputmode="numeric" pattern="[0-9]+" value="1" placeholder="Cantidad" aria-label="Cantidad de unidades" />
-                  <div class="quantity-buttons">
-                    <button type="button" class="quantity-step" data-step="1" aria-label="Aumentar cantidad"><span aria-hidden="true">▲</span></button>
-                    <button type="button" class="quantity-step" data-step="-1" aria-label="Disminuir cantidad"><span aria-hidden="true">▼</span></button>
-                  </div>
+                  <button type="button" class="quantity-step" data-step="1" aria-label="Aumentar cantidad">+</button>
                 </div></div>
     </div>
   `;
@@ -57,13 +55,16 @@ function agregarProducto() {
   const nuevoSelect = div.querySelector(".empaque");
   cargarOpciones(nuevoSelect);
   conectarEventosEnProducto(div);
+  actualizarNumeracion();
 
   // Recalcular al agregar
   calcular();
+  return div;
 }
 
 function eliminarProducto(boton) {
   const productos = document.querySelectorAll(".producto");
+  if (selectorAbierto?.elemento.closest(".producto") === boton.closest(".producto")) selectorAbierto.cerrar();
 
   // Si queda un solo producto, no lo borres: reseteá a default
   if (productos.length === 1) {
@@ -97,8 +98,8 @@ function eliminarProducto(boton) {
 function actualizarNumeracion() {
   const productos = document.querySelectorAll(".producto");
   productos.forEach((producto, index) => {
-    const titulo = producto.querySelector("h2");
-    titulo.textContent = `Producto ${index + 1}`;
+    producto.setAttribute("role", "group");
+    producto.setAttribute("aria-label", `Línea de producto ${index + 1}`);
   });
 }
 

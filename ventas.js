@@ -138,7 +138,7 @@ function aplicarFilas(filas) {
 
 function enfocarPrimerProducto() {
   const primero = listaProductos.querySelector(".producto");
-  (primero.querySelector(".picker-trigger") || primero.querySelector(".empaque")).focus();
+  (primero.querySelector(".picker-search") || primero.querySelector(".empaque")).focus();
 }
 
 nuevaCotizacion.addEventListener("click", () => {
@@ -211,7 +211,7 @@ document.querySelector(".add-product").addEventListener("click", invalidarDeshac
 
 function ajustarCantidad(input, paso) {
   const actual = parseInt(input.value, 10) || 0;
-  input.value = String(Math.min(Number.MAX_SAFE_INTEGER, Math.max(0, actual + paso)));
+  input.value = String(Math.min(Number.MAX_SAFE_INTEGER, Math.max(1, actual + paso)));
   input.dispatchEvent(new Event("input", { bubbles: true }));
 }
 
@@ -225,6 +225,20 @@ listaProductos.addEventListener("click", evento => {
 });
 listaProductos.addEventListener("keydown", evento => {
   if (!evento.target.matches(".cantidad")) return;
+  if (evento.key === "Enter") {
+    evento.preventDefault();
+    const fila = evento.target.closest(".producto");
+    if (!fila.querySelector(".empaque").value) {
+      fila.querySelector(".picker-search").focus();
+    } else if (!(parseInt(evento.target.value, 10) > 0)) {
+      evento.target.focus();
+      evento.target.select();
+    } else {
+      const siguiente = fila.nextElementSibling || agregarProducto();
+      invalidarDeshacer();
+      siguiente.querySelector(".picker-search").focus();
+    }
+  }
   if (evento.key === "ArrowUp" || evento.key === "ArrowDown") {
     evento.preventDefault();
     ajustarCantidad(evento.target, evento.key === "ArrowUp" ? 1 : -1);
