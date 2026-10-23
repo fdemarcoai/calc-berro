@@ -74,7 +74,7 @@ function inicializarSelector(select) {
     lista.replaceChildren();
     opcionesVisibles = [];
     [...select.options].forEach((opcion, indice) => {
-      if (!opcion.value || (filtro && !normalizarBusqueda(opcion.textContent).includes(filtro))) return;
+      if (!opcion.value || (filtro && !normalizarBusqueda(`${opcion.textContent} ${preciosEmpaques[opcion.value]?.medida || ""}`).includes(filtro))) return;
       const item = document.createElement("div");
       item.id = `${id}-opcion-${indice}`;
       item.className = "picker-option";
@@ -86,6 +86,13 @@ function inicializarSelector(select) {
       const nombre = document.createElement("span");
       nombre.textContent = opcion.textContent;
       texto.appendChild(nombre);
+      const medida = preciosEmpaques[opcion.value]?.medida;
+      if (medida) {
+        const detalle = document.createElement("span");
+        detalle.className = "picker-option-detail";
+        detalle.textContent = medida;
+        texto.appendChild(detalle);
+      }
       item.appendChild(texto);
       lista.appendChild(item);
       opcionesVisibles.push(item);

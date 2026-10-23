@@ -129,7 +129,7 @@ function actualizarIndicacionesProductos() {
     const producto = fila.querySelector(".empaque").value;
     const cantidad = fila.querySelector(".cantidad");
     const nota = fila.querySelector(".product-note");
-    nota.textContent = detalleEmpaque(producto, cantidad.value) || preciosEmpaques[producto]?.detalle || "";
+    nota.textContent = detalleEmpaque(producto, cantidad.value);
     fila.querySelector(".quantity-field").querySelector("span").textContent = producto === "Pórtico" ? "Unidades" : "Cantidad";
     nota.hidden = !nota.textContent;
     cantidad.setAttribute("aria-label", producto === "Pórtico" ? "Cantidad de pórticos (unidades)" : "Cantidad de unidades");

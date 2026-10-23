@@ -194,3 +194,5 @@ select:focus, input:focus { outline: none; border-color: var(--orange-dark); box
 
 .product-note { margin: 8px 0 0; color: var(--orange-dark); font-size: 12px; font-weight: 400; line-height: 1.5; overflow-wrap: anywhere; }
 .product-note[hidden] { display: none; }
+
+.picker-option-text > .picker-option-detail { color: #b42318; font-size: 12px; }

@@ -38,8 +38,11 @@ test('pórticos se cobran en paquetes completos de hasta dos unidades por línea
 });
 
 test('las medidas son inclusivas y las claves anteriores siguen siendo válidas', () => {
-  assert.equal(evaluar('nombreProducto("Escritorio chico")'), 'Escritorio chico (hasta 1,20 m inclusive)');
-  assert.equal(evaluar('nombreProducto("Escritorio grande")'), 'Escritorio grande (desde 1,21 m inclusive)');
+  assert.equal(evaluar('nombreProducto("Escritorio chico")'), 'Escritorio chico');
+  assert.equal(evaluar('nombreProducto("Escritorio grande")'), 'Escritorio grande');
+  assert.equal(evaluar('nombreProducto("Pórtico")'), 'Pórtico');
+  assert.equal(evaluar('preciosEmpaques["Escritorio chico"].medida'), 'Hasta 1,20 m inclusive');
+  assert.equal(evaluar('preciosEmpaques["Escritorio grande"].medida'), 'Más de 1,20 m');
   assert.equal(evaluar('calcularProducto("Escritorio chico", 2)'), 923 * 1.22 * 1.25 * 2);
   assert.equal(evaluar('calcularProducto("Escritorio grande", 2)'), 1298 * 1.22 * 1.25 * 2);
 });
