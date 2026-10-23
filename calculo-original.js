@@ -24,6 +24,7 @@ const preciosEmpaques = {
   Pórtico: { precio: 728, envio: 350, moneda: "$" },
   "Racks 1,90 (heavy duty, summit)": { precio: 1738, envio: 350, moneda: "$" },
   "Escritorio chico": { precio: 923, envio: 350, moneda: "$" },
+  "Pupitres armados": { precio: 923, envio: 350, moneda: "$" },
   "Escritorio grande": { precio: 1298, envio: 350, moneda: "$" },
   "Armarios metálicos Desarmados": {
     precio: 354,
