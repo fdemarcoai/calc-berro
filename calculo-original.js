@@ -74,7 +74,8 @@ const preciosEmpaques = {
 
 // Las claves se conservan para recuperar las cotizaciones guardadas.
 function nombreProducto(producto) {
-  return preciosEmpaques[producto]?.nombre || producto;
+  const nombre = preciosEmpaques[producto]?.nombre || producto;
+  return nombre.charAt(0).toLocaleUpperCase("es") + nombre.slice(1).toLocaleLowerCase("es");
 }
 
 function cantidadFacturable(producto, cantidad) {

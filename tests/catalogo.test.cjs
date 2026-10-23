@@ -51,3 +51,15 @@ test('se conservan las excepciones de impuestos y moneda', () => {
   assert.equal(evaluar('preciosEmpaques.Airbox.moneda'), 'USD');
   assert.equal(evaluar('preciosEmpaques.Airbox.envio'), 0);
 });
+
+
+test('todos los nombres visibles llevan mayúscula solo en la primera letra', () => {
+  const nombres = evaluar('Object.keys(preciosEmpaques).map(nombreProducto)');
+  for (const nombre of nombres) {
+    assert.equal(nombre[0], nombre[0].toLocaleUpperCase('es'));
+    assert.equal(nombre.slice(1), nombre.slice(1).toLocaleLowerCase('es'));
+  }
+  assert.equal(evaluar('nombreProducto("Súper Útil (3 bultos)")'), 'Súper útil (3 bultos)');
+  assert.equal(evaluar('nombreProducto("Armarios metálicos Desarmados")'), 'Armarios metálicos desarmados');
+  assert.equal(evaluar('nombreProducto("Armario Xl")'), 'Armario xl');
+});
