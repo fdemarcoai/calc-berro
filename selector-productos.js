@@ -6,11 +6,17 @@ function normalizarBusqueda(texto) {
   return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 }
 
-// Un dibujo por familia; las variantes conservan su nombre y sus medidas.
+// Dibujos por familia y por pieza cuando el producto es un componente suelto.
 function crearIconoProducto(producto) {
   const nombre = normalizarBusqueda(producto);
   let trazos = 'M12 3 21 8v8l-9 5-9-5V8l9-5Z M3 8l9 5 9-5 M12 13v8 M7.5 5.5l9 5';
-  if (/armario|guardarropa/.test(nombre)) {
+  if (nombre === "airbox") {
+    trazos = 'M3 4h18v11H3V4Z M12 4v11 M9 8v3 M15 8v3 M4 15v6 M20 15v6 M2 21h4 M18 21h4';
+  } else if (nombre.startsWith("bulto estanteria")) {
+    trazos = 'M3 3h3v14H3V3Z M9 3h3v14H9V3Z M4.5 6h0 M4.5 10h0 M10.5 6h0 M10.5 10h0 M14 8l7-2v3l-7 2V8Z M14 14l7-2v3l-7 2v-3Z M3 20h18';
+  } else if (nombre === "super util estante adicional") {
+    trazos = 'M3 10 17 6l4 4-14 4-4-4Z M3 10v3l4 4 14-4v-3 M7 14v3';
+  } else if (/armario|guardarropa/.test(nombre)) {
     trazos = 'M4 3h16v17H4V3Z M12 3v17 M9 10v3 M15 10v3 M6 20v2 M18 20v2';
   } else if (/cajonera|fichero/.test(nombre)) {
     trazos = 'M5 3h14v17H5V3Z M5 9h14 M5 15h14 M10 6h4 M10 12h4 M10 18h4 M7 20v2 M17 20v2';
