@@ -10,7 +10,9 @@ const listaProductos = document.getElementById("productos");
 const claveCotizacion = "demarco.berro.cotizacion.v1";
 const firmaCatalogo = JSON.stringify(preciosEmpaques);
 const notaMoneda = document.getElementById("nota-moneda");
+const modoLicitacion = document.getElementById("modo-licitacion");
 let filasAntesDeLimpiar = null;
+let licitacionAntesDeLimpiar = false;
 let cotizacionLista = false;
 let aplicandoFilas = false;
 
@@ -92,7 +94,9 @@ function guardarCotizacion() {
       version: 1,
       catalogo: firmaCatalogo,
       filas: leerFilas(),
+      licitacion: modoLicitacion.checked,
       deshacer: filasAntesDeLimpiar,
+      deshacerLicitacion: licitacionAntesDeLimpiar,
     }));
     estadoGuardado.textContent = "Guardado en este navegador. Podés cerrar y retomar después.";
   } catch {
@@ -144,8 +148,12 @@ function enfocarPrimerProducto() {
 nuevaCotizacion.addEventListener("click", () => {
   const actuales = leerFilas();
   // Una segunda limpieza de la pantalla vacía no borra la opción de deshacer.
-  const yaVacia = actuales.length === 1 && actuales[0].producto === "" && actuales[0].cantidad === "1";
-  if (!yaVacia) filasAntesDeLimpiar = actuales;
+  const yaVacia = actuales.length === 1 && actuales[0].producto === "" && actuales[0].cantidad === "1" && !modoLicitacion.checked;
+  if (!yaVacia) {
+    filasAntesDeLimpiar = actuales;
+    licitacionAntesDeLimpiar = modoLicitacion.checked;
+  }
+  modoLicitacion.checked = false;
   aplicarFilas([{ producto: "", cantidad: "1" }]);
   estadoCotizacion.textContent = filasAntesDeLimpiar
     ? "Datos limpiados. Podés deshacer la limpieza antes de editar otra cotización."
@@ -157,8 +165,9 @@ deshacerLimpieza.addEventListener("click", () => {
   if (!filasAntesDeLimpiar) return;
   const filas = filasAntesDeLimpiar;
   filasAntesDeLimpiar = null;
+  modoLicitacion.checked = licitacionAntesDeLimpiar;
   aplicarFilas(filas);
-  estadoCotizacion.textContent = "Limpieza deshecha. Recuperaste los productos y las cantidades anteriores.";
+  estadoCotizacion.textContent = "Limpieza deshecha. Recuperaste los productos, las cantidades y el modo de cotización anteriores.";
   enfocarPrimerProducto();
 });
 
@@ -168,12 +177,13 @@ function construirCotizacion() {
   const traslado = document.getElementById("envioMonto").textContent.trim();
   return [
     "De Marco · Cotización de envío por Berro",
+    ...(modoLicitacion.checked ? ["Licitación · Sin cargo de traslado a agencia."] : []),
     "",
     ...filas.map(fila => `• ${nombreProducto(fila.producto)} × ${parseInt(fila.cantidad, 10)}${preciosEmpaques[fila.producto]?.unidadesPorPaquete ? ` unidades — ${detalleEmpaque(fila.producto, fila.cantidad)}` : ""}`),
     "",
     `Total del envío: ${importe}.`,
     "IVA e impuestos según producto, incluidos cuando corresponde.",
-    traslado === "-" ? "Sin traslado adicional a agencia." : `Traslado a agencia incluido en el total: ${traslado}.`,
+    modoLicitacion.checked || traslado === "-" ? "Sin traslado adicional a agencia." : `Traslado a agencia incluido en el total: ${traslado}.`,
   ].join("\n");
 }
 
@@ -198,6 +208,11 @@ function invalidarDeshacer() {
   deshacerLimpieza.hidden = true;
   guardarCotizacion();
 }
+
+modoLicitacion.addEventListener("change", () => {
+  invalidarDeshacer();
+  calcular();
+});
 
 function registrarEdicion(evento) {
   // Buscar en la lista no modifica ni descarta la cotización anterior.
@@ -267,6 +282,8 @@ window.addEventListener("load", () => {
     aviso = "No se pudo recuperar el cálculo guardado. Podés comenzar una nueva cotización.";
   }
   if (guardada) {
+    modoLicitacion.checked = guardada.licitacion === true;
+    licitacionAntesDeLimpiar = guardada.deshacerLicitacion === true;
     const haySeleccionesEliminadas = guardada.filas.some(fila => fila.producto && !Object.hasOwn(preciosEmpaques, fila.producto));
     filasAntesDeLimpiar = validarFilas(guardada.deshacer) ? adaptarFilasAlCatalogo(guardada.deshacer) : null;
     aplicarFilas(adaptarFilasAlCatalogo(guardada.filas));

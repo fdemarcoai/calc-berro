@@ -224,7 +224,8 @@ function calcular() {
     }
   }
 
-  const envio = hayProductosConEnvio ? 350 : 0;
+  const esLicitacion = document.getElementById("modo-licitacion")?.checked === true;
+  const envio = hayProductosConEnvio && !esLicitacion ? 350 : 0;
 
   const envioEl = document.getElementById("envioMonto");
   const totalEl = document.getElementById("totalMonto");

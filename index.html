@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#f47b20" />
     <meta name="description" content="Herramienta de cotización de envíos Berro para el equipo de ventas de De Marco." />
     <title>Cotizador Berro · Ventas De Marco</title>
-    <link rel="stylesheet" href="styles.css?v=18" />
+    <link rel="stylesheet" href="styles.css?v=20" />
   </head>
   <body>
     <a class="skip-link" href="#calculadora">Ir a la calculadora</a>
@@ -29,7 +29,7 @@
       </div></section>
       <div class="calculator-layout">
         <section class="products-panel" aria-labelledby="products-title">
-          <div class="panel-heading"><div><p class="eyebrow">01 / Detalle de la venta</p><h2 id="products-title">Productos a enviar</h2></div><span class="panel-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m12 3 9 5v8l-9 5-9-5V8l9-5Z"/><path d="m3 8 9 5 9-5M12 13v8M7.5 5.5l9 5V14"/></svg></span></div>
+          <div class="panel-heading"><div><p class="eyebrow">01 / Detalle de la venta</p><h2 id="products-title">Productos a enviar</h2></div><label class="tender-toggle" title="Sin cargo de traslado a agencia"><input type="checkbox" id="modo-licitacion" role="switch" aria-describedby="nota-licitacion" /><span class="tender-track" aria-hidden="true"></span><span>Licitación</span><span id="nota-licitacion" class="visually-hidden">Al activar, se quita el cargo fijo de $350 de traslado a agencia cuando corresponde.</span></label></div>
           <div id="productos">
             <div class="producto">
               <button type="button" class="eliminar" onclick="eliminarProducto(this)" aria-label="Quitar producto">✕</button>
@@ -81,10 +81,10 @@
       <div class="tariff-table-scroll"><table class="tariff-table"><caption class="visually-hidden">Productos y sus tarifas base configuradas</caption><thead><tr><th scope="col">Producto o empaque</th><th scope="col">Tarifa base de producto</th></tr></thead><tbody id="filas-tarifas"></tbody></table></div>
       <p class="tariff-note" id="nota-tarifas">Importes base del catálogo. Cada producto conserva sus reglas de impuestos y traslado.</p>
     </dialog>
-    <script src="calculo-original.js?v=16"></script>
+    <script src="calculo-original.js?v=20"></script>
     <script src="selector-productos.js?v=19"></script>
     <script src="script.js?v=16"></script>
-    <script src="ventas.js?v=14"></script>
+    <script src="ventas.js?v=20"></script>
     <script src="panel-cotizacion.js?v=11"></script>
     <script src="tabla-tarifas.js?v=1"></script>
   </body>
