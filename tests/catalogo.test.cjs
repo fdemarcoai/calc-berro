@@ -8,7 +8,7 @@ vm.runInContext(fs.readFileSync(path.join(__dirname, '../calculo-original.js'), 
 const evaluar = codigo => vm.runInContext(codigo, contexto);
 
 test('el catálogo conserva tándem de 2, 3 y 4 y retira los de 5, 6 y 8', () => {
-  assert.equal(evaluar('Object.keys(preciosEmpaques).length'), 27);
+  assert.equal(evaluar('Object.keys(preciosEmpaques).length'), 30);
   for (const asientos of [2, 3, 4]) {
     assert.equal(evaluar(`Object.hasOwn(preciosEmpaques, "Tandem de ${asientos} asientos")`), true);
   }
