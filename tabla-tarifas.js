@@ -7,7 +7,7 @@ const filasTarifas = document.getElementById("filas-tarifas");
 abrirTarifas.addEventListener("click", () => {
   filasTarifas.replaceChildren();
   const productos = Object.keys(preciosEmpaques).sort((a, b) =>
-    nombreProducto(a).localeCompare(nombreProducto(b), "es", { sensitivity: "base" }),
+    nombreProducto(a).localeCompare(nombreProducto(b), "es", { sensitivity: "base", numeric: true }),
   );
   for (const producto of productos) {
     const config = preciosEmpaques[producto];

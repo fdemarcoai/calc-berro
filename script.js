@@ -1,7 +1,7 @@
 function cargarOpciones(select) {
   select.innerHTML = "<option value=''>Seleccionar</option>";
 
-  const nombres = Object.keys(preciosEmpaques).sort((a, b) => a.localeCompare(b, "es", { sensitivity: "base" }));
+  const nombres = Object.keys(preciosEmpaques).sort((a, b) => a.localeCompare(b, "es", { sensitivity: "base", numeric: true }));
   for (const nombre of nombres) {
     const option = document.createElement("option");
     option.value = nombre;

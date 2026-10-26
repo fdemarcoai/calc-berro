@@ -94,7 +94,7 @@ function detalleEmpaque(producto, cantidad) {
 
 function opcionesEmpaquesHTML() {
   const nombres = Object.keys(preciosEmpaques).sort((a, b) =>
-    a.localeCompare(b, "es", { sensitivity: "base" }),
+    a.localeCompare(b, "es", { sensitivity: "base", numeric: true }),
   );
 
   let html = "<option value=''>Seleccionar</option>";
