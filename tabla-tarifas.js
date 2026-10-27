@@ -16,7 +16,7 @@ abrirTarifas.addEventListener("click", () => {
     nombre.textContent = nombreProducto(producto);
     const notas = [];
     if (config.medida) notas.push(config.medida);
-    if (config.unidadesPorPaquete > 1) notas.push(`Por paquete de ${config.unidadesPorPaquete} unidades`);
+    if (config.unidadesPorPaquete > 1) notas.push(`Por paquete de hasta ${config.unidadesPorPaquete} unidades; se redondea por línea`);
     if (notas.length) {
       const detalle = document.createElement("small");
       detalle.textContent = notas.join(" · ");
@@ -44,3 +44,4 @@ dialogoTarifas.addEventListener("click", evento => {
     dialogoTarifas.close();
   }
 });
+
