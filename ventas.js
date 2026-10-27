@@ -112,13 +112,24 @@ function validarFilas(filas) {
 }
 
 function adaptarFilasAlCatalogo(filas) {
-  return filas.map(fila => ({
-    producto: Object.hasOwn(preciosEmpaques, fila.producto) ? fila.producto : "",
-    cantidad: fila.cantidad,
-  }));
+  const resultado = [];
+  const porProducto = new Map();
+  for (const fila of filas) {
+    const producto = Object.hasOwn(preciosEmpaques, fila.producto) ? fila.producto : "";
+    const anterior = producto ? porProducto.get(producto) : null;
+    if (anterior) {
+      anterior.cantidad = String((parseInt(anterior.cantidad, 10) || 0) + (parseInt(fila.cantidad, 10) || 0));
+    } else {
+      const nueva = { producto, cantidad: fila.cantidad };
+      resultado.push(nueva);
+      if (producto) porProducto.set(producto, nueva);
+    }
+  }
+  return resultado;
 }
 
 function aplicarFilas(filas) {
+  filas = adaptarFilasAlCatalogo(filas);
   aplicandoFilas = true;
   try {
     if (typeof selectorAbierto !== "undefined" && selectorAbierto) selectorAbierto.cerrar();
@@ -290,7 +301,7 @@ window.addEventListener("load", () => {
     if (haySeleccionesEliminadas) {
       aviso = "Recuperamos las cantidades. Algunas selecciones ya no están en el catálogo actual: volvé a elegir esos productos.";
     } else if (guardada.catalogo !== firmaCatalogo) {
-      aviso = "Cotización recuperada y recalculada con el catálogo actual. Los pórticos se cobran por paquete de hasta 2 unidades en cada línea.";
+      aviso = "Cotización recuperada y recalculada con el catálogo actual. Los pórticos se cobran por paquete de hasta 2 unidades.";
     }
   }
   cotizacionLista = true;

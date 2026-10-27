@@ -17,12 +17,11 @@ test('el catálogo conserva tándem de 2, 3 y 4 y retira los de 5, 6 y 8', () =>
   }
 });
 
-test('escalera multiuso tiene la tarifa, traslado e impuestos del bulto de estantería', () => {
+test('escalera multiuso conserva el cobro por unidad y la tarifa base del bulto', () => {
   assert.equal(evaluar('preciosEmpaques["Escalera multiuso"].precio'), 354);
   assert.equal(evaluar('preciosEmpaques["Escalera multiuso"].envio'), 350);
   for (const cantidad of [1, 2, 5]) {
     const escalera = evaluar(`calcularProducto("Escalera multiuso", ${cantidad})`);
-    assert.equal(escalera, evaluar(`calcularProducto("Bulto estantería (parantes, estantes)", ${cantidad})`));
     assert.equal(escalera, 354 * 1.22 * 1.25 * cantidad);
   }
 });
@@ -33,8 +32,6 @@ test('pórticos se cobran en paquetes completos de hasta dos unidades por línea
     assert.equal(evaluar(`calcularProducto("Pórtico", ${unidades})`), 728 * 1.22 * 1.25 * paquetes);
     assert.match(evaluar(`detalleEmpaque("Pórtico", ${unidades})`), new RegExp(`^${paquetes} paquete`));
   }
-  // Las líneas duplicadas mantienen su empaque independiente.
-  assert.equal(evaluar('calcularProducto("Pórtico", 1) + calcularProducto("Pórtico", 1)'), 2220.4);
 });
 
 test('las medidas son inclusivas y las claves anteriores siguen siendo válidas', () => {
@@ -65,4 +62,21 @@ test('todos los nombres visibles llevan mayúscula solo en la primera letra', ()
   assert.equal(evaluar('nombreProducto("Súper Útil (3 bultos)")'), 'Súper útil (3 bultos)');
   assert.equal(evaluar('nombreProducto("Armarios metálicos Desarmados")'), 'Armarios metálicos desarmados');
   assert.equal(evaluar('nombreProducto("Armario Xl")'), 'Armario xl');
+});
+
+
+test('estanterías de 2 mts se cobran por unidad', () => {
+  for (const cantidad of [1, 2, 3, 4, 5]) {
+    assert.equal(evaluar(`cantidadFacturable("Estanterías de 2 mts", ${cantidad})`), cantidad);
+    assert.equal(evaluar(`calcularProducto("Estanterías de 2 mts", ${cantidad})`), 1406 * 1.22 * 1.25 * cantidad);
+  }
+  assert.equal(evaluar('detalleEmpaque("Estanterías de 2 mts", 2)'), '');
+});
+
+
+test('bultos de estantería se cobran por unidad', () => {
+  for (const cantidad of [1, 2, 3, 4, 5]) {
+    assert.equal(evaluar(`cantidadFacturable("Bulto estantería (parantes, estantes)", ${cantidad})`), cantidad);
+    assert.equal(evaluar(`calcularProducto("Bulto estantería (parantes, estantes)", ${cantidad})`), 354 * 1.22 * 1.25 * cantidad);
+  }
 });

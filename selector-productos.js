@@ -125,7 +125,7 @@ function inicializarSelector(select) {
     lista.replaceChildren();
     opcionesVisibles = [];
     [...select.options].forEach((opcion, indice) => {
-      if (!opcion.value || (filtro && !normalizarBusqueda(`${opcion.textContent} ${preciosEmpaques[opcion.value]?.medida || ""}`).includes(filtro))) return;
+      if (!opcion.value || opcion.disabled || (filtro && !normalizarBusqueda(`${opcion.textContent} ${preciosEmpaques[opcion.value]?.medida || ""}`).includes(filtro))) return;
       const item = document.createElement("div");
       item.id = `${id}-opcion-${indice}`;
       item.className = "picker-option";
@@ -170,7 +170,7 @@ function inicializarSelector(select) {
   }
 
   function elegir(item) {
-    if (!item) return;
+    if (!item || [...select.options].find(opcion => opcion.value === item.dataset.value)?.disabled) return;
     select.value = item.dataset.value;
     select.dispatchEvent(new Event("change", { bubbles: true }));
     cerrar();

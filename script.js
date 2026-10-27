@@ -124,6 +124,16 @@ function conectarEventosEnProducto(producto) {
   }
 }
 
+function actualizarOpcionesDisponibles() {
+  const selects = [...document.querySelectorAll(".empaque")];
+  const seleccionados = new Set(selects.map(select => select.value).filter(Boolean));
+  selects.forEach(select => {
+    [...select.options].forEach(opcion => {
+      opcion.disabled = Boolean(opcion.value && opcion.value !== select.value && seleccionados.has(opcion.value));
+    });
+  });
+}
+
 function actualizarIndicacionesProductos() {
   document.querySelectorAll(".producto").forEach(fila => {
     const producto = fila.querySelector(".empaque").value;
@@ -139,6 +149,7 @@ function actualizarIndicacionesProductos() {
 // Recalcula con las reglas del catálogo y actualiza las indicaciones de empaque.
 const calcularVersionOriginal = calcular;
 calcular = function calcularConInterfaz() {
+  actualizarOpcionesDisponibles();
   calcularVersionOriginal();
   actualizarIndicacionesProductos();
   document.dispatchEvent(new Event("cotizacion:actualizada"));
