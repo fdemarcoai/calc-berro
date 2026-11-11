@@ -16,6 +16,7 @@ const preciosEmpaques = {
     moneda: "$",
   },
   "Escalera multiuso": { precio: 354, envio: 350, moneda: "$" },
+  "Escalera Metallo de 8 escalones": { precio: 5503, envio: 350, moneda: "$" },
   "Escalera Petra 8 escalones": { precio: 11224, envio: 350, moneda: "$" },
   "Escalera Petra 10 escalones": { precio: 14030, envio: 350, moneda: "$" },
   "Escalera doble acceso": { precio: 5490, envio: 350, moneda: "$" },
